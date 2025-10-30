@@ -108,7 +108,7 @@ Select your device/simulator and press Run ▶️.
 
 | Capture Perk | Prediction Result | Fetch Predictions Image | Perk Description |
 |:-------:|:-----:|:-----:|:-----:|
-|<img src="./doc/sample_1.PNG" alt="preview_1" width="500"/>|<img src="./doc/sample_2.PNG" alt="preview_2" width="500"/>|<img src="./doc/sample_3.PNG" alt="preview_3" width="500"/>|<img src="./doc/sample_4.PNG" alt="preview_4" width="500"/>|
+|<img src="./doc/sample_1.jpg" alt="preview_1" width="500"/>|<img src="./doc/sample_2.jpg" alt="preview_2" width="500"/>|<img src="./doc/sample_3.jpg" alt="preview_3" width="500"/>|<img src="./doc/sample_4.jpg" alt="preview_4" width="500"/>|
 
 ---
 
