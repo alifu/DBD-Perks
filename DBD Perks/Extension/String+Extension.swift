@@ -21,7 +21,7 @@ extension String {
     }
     
     func extractPerkName() -> String {
-        let data = self.remove(character: "File:Iconperks_").remove(character: ".png")
-        return data.insertSpacesBeforeCapitals()
+        let data = self.remove(character: "File:IconPerks_").remove(character: ".png")
+        return data.insertSpacesBeforeCapitals().capitalized
     }
 }
