@@ -68,13 +68,13 @@ DBD-Perks/
 
 ## 🚀 Getting Started
 
-### 1. Clone the Repository
+#### 1. Clone the Repository
 ```bash
 git clone https://github.com/alifu/DBD-Perks.git
 cd DBD-Perks
 ```
 
-### 2. Add the ML Model
+#### 2. Add the ML Model
 
 Download or generate the .mlpackage from
 
@@ -82,11 +82,11 @@ Download or generate the .mlpackage from
 
 and place it inside the `DBD Perks/` root directory.
 
-### 3. Open in Xcode
+#### 3. Open in Xcode
 
 Open `DBD Perks.xcodeproj` (Swift Packages will fetch library we needed).
 
-### 4. Build & Run
+#### 4. Build & Run
 
 Select your device/simulator and press Run ▶️.
 

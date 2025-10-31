@@ -33,12 +33,12 @@ class PredictionViewModel {
             let model = try? DBDPerkClassifier_Tuned(configuration: MLModelConfiguration())
             
             if let result = try? model?.prediction(input_1: buffer) {
-                predictionLog = "🎯 Predicted: \(result.classLabel)\n"
+                predictionLog = "🎯 Predicted: \(result.classLabel.extractPerkName())\n"
                 
                 let sorted = result.classLabel_probs.sorted { $0.value > $1.value }
                 
                 for (i, (label, prob)) in sorted.prefix(10).enumerated() {
-                    predictionLog += "  \(i+1). \(label): \(String(format: "%.2f", prob * 100))%\n"
+                    predictionLog += "  \(i+1). \(label.extractPerkName()): \(String(format: "%.2f", prob * 100))%\n"
                     resultPerks.append(label)
                 }
             } else {
