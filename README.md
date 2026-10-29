@@ -117,4 +117,4 @@ Select your device/simulator and press Run ▶️.
 The model, scripts, and dataset in this repository are provided with MIT License (see LICENSE file).
 
 Icon images and descriptions are sourced from the [Dead by Daylight Wiki (Fandom)](https://deadbydaylight.fandom.com).
-Please refer to the original wiki for usage rights and attribution.
+Please refer to the original wiki for usage rights and attribution. 

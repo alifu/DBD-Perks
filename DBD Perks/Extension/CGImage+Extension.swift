@@ -34,4 +34,8 @@ extension CGImage {
         }
         return uiImage.cgImage!
     }
+    
+    static func sample(named name: String) -> CGImage? {
+        UIImage(named: name)?.cgImage
+    }
 }

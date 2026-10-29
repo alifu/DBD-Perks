@@ -12,11 +12,27 @@
 		A0E4EFA72EB328E000094A3F /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = A0E4EFA62EB328E000094A3F /* Moya */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		8230D645301EF032001E485C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A09081D22EB1E696004AE37A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A09081D92EB1E696004AE37A;
+			remoteInfo = "DBD Perks";
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		8230D641301EF032001E485C /* DBD PerksTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "DBD PerksTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A09081DA2EB1E696004AE37A /* DBD Perks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DBD Perks.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		8230D642301EF032001E485C /* DBD PerksTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "DBD PerksTests";
+			sourceTree = "<group>";
+		};
 		A09081DC2EB1E696004AE37A /* DBD Perks */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = "DBD Perks";
@@ -25,6 +41,13 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		8230D63E301EF032001E485C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A09081D72EB1E696004AE37A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -42,6 +65,7 @@
 			isa = PBXGroup;
 			children = (
 				A09081DC2EB1E696004AE37A /* DBD Perks */,
+				8230D642301EF032001E485C /* DBD PerksTests */,
 				A09081DB2EB1E696004AE37A /* Products */,
 			);
 			sourceTree = "<group>";
@@ -50,6 +74,7 @@
 			isa = PBXGroup;
 			children = (
 				A09081DA2EB1E696004AE37A /* DBD Perks.app */,
+				8230D641301EF032001E485C /* DBD PerksTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -57,6 +82,29 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		8230D640301EF032001E485C /* DBD PerksTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8230D649301EF032001E485C /* Build configuration list for PBXNativeTarget "DBD PerksTests" */;
+			buildPhases = (
+				8230D63D301EF032001E485C /* Sources */,
+				8230D63E301EF032001E485C /* Frameworks */,
+				8230D63F301EF032001E485C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8230D646301EF032001E485C /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				8230D642301EF032001E485C /* DBD PerksTests */,
+			);
+			name = "DBD PerksTests";
+			packageProductDependencies = (
+			);
+			productName = "DBD PerksTests";
+			productReference = 8230D641301EF032001E485C /* DBD PerksTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		A09081D92EB1E696004AE37A /* DBD Perks */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = A09081E82EB1E697004AE37A /* Build configuration list for PBXNativeTarget "DBD Perks" */;
@@ -89,9 +137,13 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1620;
+				LastSwiftUpdateCheck = 2650;
 				LastUpgradeCheck = 1620;
 				TargetAttributes = {
+					8230D640301EF032001E485C = {
+						CreatedOnToolsVersion = 26.5;
+						TestTargetID = A09081D92EB1E696004AE37A;
+					};
 					A09081D92EB1E696004AE37A = {
 						CreatedOnToolsVersion = 16.2;
 					};
@@ -116,11 +168,19 @@
 			projectRoot = "";
 			targets = (
 				A09081D92EB1E696004AE37A /* DBD Perks */,
+				8230D640301EF032001E485C /* DBD PerksTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		8230D63F301EF032001E485C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A09081D82EB1E696004AE37A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -131,6 +191,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		8230D63D301EF032001E485C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A09081D62EB1E696004AE37A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -140,7 +207,57 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		8230D646301EF032001E485C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A09081D92EB1E696004AE37A /* DBD Perks */;
+			targetProxy = 8230D645301EF032001E485C /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		8230D647301EF032001E485C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "AppWork.DBD-PerksTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DBD Perks.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/DBD Perks";
+			};
+			name = Debug;
+		};
+		8230D648301EF032001E485C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "AppWork.DBD-PerksTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DBD Perks.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/DBD Perks";
+			};
+			name = Release;
+		};
 		A09081E62EB1E697004AE37A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -333,6 +450,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		8230D649301EF032001E485C /* Build configuration list for PBXNativeTarget "DBD PerksTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8230D647301EF032001E485C /* Debug */,
+				8230D648301EF032001E485C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		A09081D52EB1E696004AE37A /* Build configuration list for PBXProject "DBD Perks" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
