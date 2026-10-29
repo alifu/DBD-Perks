@@ -1,24 +1,43 @@
-# Xcode
+# macOS
 .DS_Store
-*.pbxuser
-*.mode1v3
-*.mode2v3
-*.perspectivev3
-*.xccheckout
-*.xcscmblueprint
-*.xccurrentversion
+.AppleDouble
+.LSOverride
+._*
+
+# Xcode
 build/
 DerivedData/
-*.xcodeproj/project.xcworkspace/
-*.xcodeproj/xcuserdata/
-*.xcworkspace/xcuserdata/
-
-# Xcode workspace user data
-*.xcuserdata/
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+*.xccheckout
+*.xcscmblueprint
+*.moved-aside
 *.xcuserstate
+*.xcuserdatad/
+xcuserdata/
+*.hmap
+*.ipa
+*.dSYM
+*.dSYM.zip
+timeline.xctimeline
+playground.xcworkspace
+
+# Xcode workspace (keep shared data such as SPM Package.resolved)
+*.xcodeproj/project.xcworkspace/*
+!*.xcodeproj/project.xcworkspace/xcshareddata/
+*.xcodeproj/project.xcworkspace/xcshareddata/*
+!*.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/
 
 # Swift Package Manager
 .build/
+.swiftpm/
+Packages/
 
 # Carthage
 Carthage/Build/
@@ -28,12 +47,42 @@ Pods/
 
 # Fastlane
 fastlane/report.xml
+fastlane/Preview.html
 fastlane/screenshots/**/*.png
 fastlane/test_output
 
-# Other
-*.hmap
-*.ipa
-*.dSYM
-*.dSYM.zip
+# Code coverage / test results
+*.xcresult
+*.profraw
+*.profdata
 
+# Web variant (web/)
+node_modules/
+dist/
+.vite/
+coverage/
+playwright-report/
+test-results/
+*.local
+.env
+.env.*
+!.env.example
+npm-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Python (helper scripts, if any)
+__pycache__/
+*.py[cod]
+.venv/
+
+# Editors
+.vscode/
+.idea/
+*.swp
+
+# AI tooling (local only)
+CLAUDE.md
+.claude/
+.claudeignore
+graphify-out/

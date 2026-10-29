@@ -24,15 +24,24 @@ class PredictionViewModel {
     var resultPerksImageURL: [URL] = []
     var isLoading: Bool = false
     var errorMessage: String?
+    @ObservationIgnored private var cachedModel: DBDPerkClassifier_Tuned?
+    
+    private func loadModel() throws -> DBDPerkClassifier_Tuned {
+        if let cachedModel { return cachedModel }
+        let model = try DBDPerkClassifier_Tuned(configuration: MLModelConfiguration())
+        cachedModel = model
+        return model
+    }
     
     @MainActor
     func runPreprocess(capturedImage: UIImage?, processor: PerkImageProcessor) {
         
         guard let sample = capturedImage else { return }
         if let buffer = processor.preprocess(sample) {
-            let model = try? DBDPerkClassifier_Tuned(configuration: MLModelConfiguration())
-            
-            if let result = try? model?.prediction(input_1: buffer) {
+            resultPerks = []
+            errorMessage = nil
+            do {
+                let result = try loadModel().prediction(input_1: buffer)
                 predictionLog = "🎯 Predicted: \(result.classLabel.extractPerkName())\n"
                 
                 let sorted = result.classLabel_probs.sorted { $0.value > $1.value }
@@ -41,8 +50,9 @@ class PredictionViewModel {
                     predictionLog += "  \(i+1). \(label.extractPerkName()): \(String(format: "%.2f", prob * 100))%\n"
                     resultPerks.append(label)
                 }
-            } else {
-                predictionLog = "❌ Prediction failed."
+            } catch {
+                errorMessage = error.localizedDescription
+                predictionLog = "❌ Prediction failed: \(error.localizedDescription)"
             }
             
             let ciImage = CIImage(cvPixelBuffer: buffer)
