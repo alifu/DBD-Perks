@@ -124,25 +124,22 @@ extension CameraManager: AVCapturePhotoCaptureDelegate {
                      error: Error?) {
         if let error = error {
             print("⚠️ Error capturing photo: \(error.localizedDescription)")
+            Task { @MainActor in self.photoCaptureCompletion?(nil) }
             return
         }
         
         guard let data = photo.fileDataRepresentation(),
               var image = UIImage(data: data) else {
             print("⚠️ Could not create UIImage from photo data.")
+            Task { @MainActor in self.photoCaptureCompletion?(nil) }
             return
         }
         
         // Ensure image is in the correct orientation
         image = image.fixedOrientation()
         
-        // Crop to center 128×128
-        let overlaySize = CGSize(width: 128, height: 128)
-        let previewSize = UIScreen.main.bounds.size
-        let cropped = image.centerCropped(to: overlaySize, sizeInView: previewSize)
-        
         Task { @MainActor in
-            self.photoCaptureCompletion?(cropped)
+            self.photoCaptureCompletion?(image)
         }
     }
 }

@@ -20,34 +20,14 @@ extension UIImage {
 }
 
 extension UIImage {
-    /// Crop an image using a visible overlay area (in view coordinates)
-    func centerCropped(to overlaySize: CGSize, sizeInView viewSize: CGSize) -> UIImage {
-        let imageAspect = size.width / size.height
-        let viewAspect = viewSize.width / viewSize.height
-
-        var scaleFactor: CGFloat
-        var scaledImageSize = CGSize.zero
-
-        // Because preview uses `.scaledToFill()`
-        if imageAspect > viewAspect {
-            // Image is wider — scaled to match height
-            scaleFactor = size.height / viewSize.height
-            scaledImageSize = CGSize(width: viewSize.height * imageAspect, height: viewSize.height)
-        } else {
-            // Image is taller — scaled to match width
-            scaleFactor = size.width / viewSize.width
-            scaledImageSize = CGSize(width: viewSize.width, height: viewSize.width / imageAspect)
-        }
-
-        // Compute overlay rect in image coordinates
-        let cropWidth = overlaySize.width * scaleFactor
-        let cropHeight = overlaySize.height * scaleFactor
-        let cropX = (size.width - cropWidth) / 2
-        let cropY = (size.height - cropHeight) / 2
-        let cropRect = CGRect(x: cropX, y: cropY, width: cropWidth, height: cropHeight)
-
-        guard let cgImage = cgImage?.cropping(to: cropRect) else { return self }
-        return UIImage(cgImage: cgImage, scale: scale, orientation: imageOrientation)
+    /// Crops the part of this photo that lies under `viewRect` of a `.scaledToFill` preview.
+    func cropped(toViewRect viewRect: CGRect, viewSize: CGSize) -> UIImage? {
+        guard let cgImage,
+              let pixelRect = CropGeometry.imageRect(
+                forViewRect: viewRect,
+                viewSize: viewSize,
+                imageSize: CGSize(width: cgImage.width, height: cgImage.height)),
+              let cropped = cgImage.cropping(to: pixelRect) else { return nil }
+        return UIImage(cgImage: cropped, scale: scale, orientation: .up)
     }
 }
-

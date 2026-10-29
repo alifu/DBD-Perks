@@ -6,75 +6,64 @@
 //
 
 import Foundation
-import SwiftUI
-import CoreML
+import Observation
+import UIKit
 
-struct Perk: Decodable {
-    let name: String
-    let description: String
-}
-
+@MainActor
 @Observable
-class PredictionViewModel {
-    
-    private let service = DBDPerkImageService()
-    var resultPerks: [String] = []
-    var previewImage: UIImage?
-    var predictionLog: String = ""
-    var resultPerksImageURL: [URL] = []
-    var isLoading: Bool = false
-    var errorMessage: String?
-    @ObservationIgnored private var cachedModel: DBDPerkClassifier_Tuned?
-    
-    private func loadModel() throws -> DBDPerkClassifier_Tuned {
-        if let cachedModel { return cachedModel }
-        let model = try DBDPerkClassifier_Tuned(configuration: MLModelConfiguration())
-        cachedModel = model
-        return model
-    }
-    
-    @MainActor
-    func runPreprocess(capturedImage: UIImage?, processor: PerkImageProcessor) {
-        
-        guard let sample = capturedImage else { return }
-        if let buffer = processor.preprocess(sample) {
-            resultPerks = []
-            errorMessage = nil
-            do {
-                let result = try loadModel().prediction(input_1: buffer)
-                predictionLog = "🎯 Predicted: \(result.classLabel.extractPerkName())\n"
-                
-                let sorted = result.classLabel_probs.sorted { $0.value > $1.value }
-                
-                for (i, (label, prob)) in sorted.prefix(10).enumerated() {
-                    predictionLog += "  \(i+1). \(label.extractPerkName()): \(String(format: "%.2f", prob * 100))%\n"
-                    resultPerks.append(label)
-                }
-            } catch {
-                errorMessage = error.localizedDescription
-                predictionLog = "❌ Prediction failed: \(error.localizedDescription)"
-            }
-            
-            let ciImage = CIImage(cvPixelBuffer: buffer)
-            let context = CIContext()
-            
-            if let cgImage = context.createCGImage(ciImage, from: ciImage.extent) {
-                let uiImage = UIImage(cgImage: cgImage)
-                previewImage = uiImage
-            } else {
-                print("⚠️ Failed to create CGImage from CIImage")
-            }
+final class PredictionViewModel {
+
+    private(set) var results: [SlotResult] = []
+    private(set) var errorMessage: String?
+
+    @ObservationIgnored private let scorer: SlotScoring?
+    @ObservationIgnored private let repository: PerkRepository?
+
+    /// Production wiring: bundled data + Core ML model. Failures are shown instead of swallowed.
+    init() {
+        do {
+            let live = try Self.makeLiveDependencies()
+            scorer = live.scorer
+            repository = live.repository
+        } catch {
+            scorer = nil
+            repository = nil
+            errorMessage = error.localizedDescription
         }
     }
-    
-    func loadImage() {
-        if !resultPerksImageURL.isEmpty { return }
-        Task {
-            isLoading = true
-            let urls = await service.fetchPerkImageURLs(resultPerks)
-            self.resultPerksImageURL = urls
-            isLoading = false
-            print("🎨 Got \(urls.count) URLs")
+
+    private static func makeLiveDependencies() throws -> (scorer: SlotScoring, repository: PerkRepository) {
+        (try CoreMLPerkScorer(), try BundledPerkRepository())
+    }
+
+    init(scorer: SlotScoring, repository: PerkRepository) {
+        self.scorer = scorer
+        self.repository = repository
+    }
+
+    func perk(id: String) -> PerkInfo? { repository?.perk(id: id) }
+
+    /// Recognizes every crop (at most `PerkSlotLayout.maxSlots`) and makes sure no perk repeats.
+    func analyze(crops: [UIImage]) {
+        guard let scorer, let repository else { return }
+        errorMessage = nil
+        let resolver = LoadoutResolver(repository: repository)
+        do {
+            let slotCandidates = try crops.prefix(PerkSlotLayout.maxSlots).map {
+                resolver.candidates(from: try scorer.labelScores(for: $0))
+            }
+            results = resolver.resolve(slotCandidates)
+        } catch {
+            results = []
+            errorMessage = error.localizedDescription
+        }
+    }
+
+    /// Lets the user correct a guess by picking another candidate of the same slot.
+    func select(_ candidate: PerkCandidate, inSlot slot: Int) {
+        results = results.map { result in
+            guard result.slot == slot, result.candidates.contains(candidate) else { return result }
+            return SlotResult(slot: slot, candidates: result.candidates, chosen: candidate, isLowConfidence: false)
         }
     }
 }

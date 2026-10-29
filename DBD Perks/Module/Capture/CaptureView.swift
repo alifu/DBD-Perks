@@ -13,10 +13,21 @@ struct CaptureView: View {
     
     var body: some View {
         ZStack {
-            CameraView(image: $viewModel.currentFrame)
+            CameraView(image: $viewModel.currentFrame,
+                       viewSize: $viewModel.previewSize,
+                       layout: viewModel.layout)
             
             if viewModel.currentFrame != nil {
                 VStack {
+                    Picker("Layout", selection: $viewModel.layout) {
+                        ForEach(PerkSlotLayout.allCases) { layout in
+                            Text(layout.title).tag(layout)
+                        }
+                    }
+                    .pickerStyle(.segmented)
+                    .padding(.horizontal, 48)
+                    .padding(.top, 8)
+                    
                     Spacer()
                     
                     Button(action: {
@@ -39,16 +50,8 @@ struct CaptureView: View {
             }
         }
         .sheet(isPresented: $viewModel.showingSheet) {
-            PredictionView(capturedImage: viewModel.capturedImage)
+            PredictionView(crops: viewModel.capturedCrops)
         }
-    }
-    
-    // Helper to stream CGImage into Binding
-    private var cameraImageBinding: Binding<CGImage?> {
-        Binding(
-            get: { nil },
-            set: { _ in }
-        )
     }
 }
 
