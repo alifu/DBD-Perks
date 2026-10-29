@@ -23,11 +23,11 @@ enum SlotScoringError: LocalizedError {
 /// Core ML implementation. The model is loaded once and reused for every slot.
 @MainActor
 final class CoreMLPerkScorer: SlotScoring {
-    private let model: DBDPerkClassifier_Tuned
+    private let model: DBDPerkClassifierV2
     private let processor: PerkImageProcessor
 
     init(processor: PerkImageProcessor? = nil) throws {
-        self.model = try DBDPerkClassifier_Tuned(configuration: MLModelConfiguration())
+        self.model = try DBDPerkClassifierV2(configuration: MLModelConfiguration())
         self.processor = processor ?? PerkImageProcessor()
     }
 

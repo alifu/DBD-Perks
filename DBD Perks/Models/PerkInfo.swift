@@ -29,8 +29,3 @@ struct PerksDocument: Codable {
     let schemaVersion: Int
     let perks: [PerkInfo]
 }
-
-/// Maps the v1 model's class labels ("File:IconPerks_x") to `PerkInfo.id`.
-struct LegacyLabelMap: Codable {
-    let map: [String: String]
-}

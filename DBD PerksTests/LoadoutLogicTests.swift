@@ -14,10 +14,7 @@ final class LoadoutLogicTests: XCTestCase {
             PerkInfo(id: id, name: id, role: .survivor, owner: "", iconUrl: URL(string: "https://x.test/\(id).png")!,
                      description: "d", flavor: "", descriptionPatch: nil, wikiUrl: URL(string: "https://x.test/\(id)")!)
         }
-        return BundledPerkRepository(
-            perks: ["a", "b", "c", "d"].map(perk),
-            modelLabelMap: ["File:A": "a", "File:B": "b", "File:C": "c", "File:D": "d", "File:Ghost": "ghost"]
-        )
+        return BundledPerkRepository(perks: ["a", "b", "c", "d"].map(perk))
     }
 
     // MARK: TopK
@@ -39,33 +36,32 @@ final class LoadoutLogicTests: XCTestCase {
 
     // MARK: Repository
 
-    func testRepositoryDropsLabelsPointingToUnknownPerks() {
+    func testRepositoryResolvesOnlyKnownPerkIDsAsModelLabels() {
         let repository = makeRepository()
 
-        XCTAssertEqual(repository.perkID(forModelLabel: "File:A"), "a")
-        XCTAssertNil(repository.perkID(forModelLabel: "File:Ghost"))
-        XCTAssertNil(repository.perkID(forModelLabel: "File:Unknown"))
+        XCTAssertEqual(repository.perkID(forModelLabel: "a"), "a")
+        XCTAssertNil(repository.perkID(forModelLabel: "ghost"))
         XCTAssertEqual(repository.perk(id: "b")?.name, "b")
     }
 
-    func testBundledResourcesLoadAndEveryMappedLabelResolves() throws {
+    func testBundledResourcesLoadAndEveryModelLabelResolves() throws {
         let repository = try BundledPerkRepository(bundle: Bundle(for: CoreMLPerkScorer.self))
-        let model = try DBDPerkClassifier_Tuned(configuration: .init())
+        let model = try DBDPerkClassifierV2(configuration: .init())
         let labels = try XCTUnwrap(model.model.modelDescription.classLabels as? [String])
 
-        let mapped = labels.compactMap { repository.perkID(forModelLabel: $0) }
+        let orphans = labels.filter { repository.perkID(forModelLabel: $0) == nil }
 
         XCTAssertGreaterThan(repository.allPerks.count, 250)
-        XCTAssertEqual(mapped.count, 207, "207 of the model's 222 labels still exist in the wiki")
-        XCTAssertTrue(mapped.allSatisfy { repository.perk(id: $0) != nil })
+        XCTAssertEqual(orphans, [], "every label the model can output must have wiki data")
+        XCTAssertGreaterThanOrEqual(labels.count, 270)
     }
 
     // MARK: Resolver
 
-    func testCandidatesSkipStaleLabelsAndMapToPerkIDs() {
+    func testCandidatesSkipLabelsWithoutWikiData() {
         let resolver = LoadoutResolver(repository: makeRepository())
 
-        let candidates = resolver.candidates(from: ["File:Ghost": 0.9, "File:A": 0.6, "File:B": 0.3])
+        let candidates = resolver.candidates(from: ["ghost": 0.9, "a": 0.6, "b": 0.3])
 
         XCTAssertEqual(candidates.map(\.perkID), ["a", "b"])
     }

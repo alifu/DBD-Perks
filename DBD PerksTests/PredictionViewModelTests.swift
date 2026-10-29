@@ -34,20 +34,17 @@ final class PredictionViewModelTests: XCTestCase {
             PerkInfo(id: id, name: id.uppercased(), role: .killer, owner: "", iconUrl: URL(string: "https://x.test/\(id).png")!,
                      description: "d", flavor: "", descriptionPatch: nil, wikiUrl: URL(string: "https://x.test/\(id)")!)
         }
-        return BundledPerkRepository(
-            perks: ["a", "b", "c", "d"].map(perk),
-            modelLabelMap: ["L:a": "a", "L:b": "b", "L:c": "c", "L:d": "d"]
-        )
+        return BundledPerkRepository(perks: ["a", "b", "c", "d"].map(perk))
     }
 
     private let blank = UIImage()
 
     func testAnalyzeReturnsOneResultPerCropWithDistinctPerks() {
         let scorer = FakeScorer([
-            ["L:a": 0.9, "L:b": 0.1],
-            ["L:a": 0.55, "L:c": 0.4],
-            ["L:d": 0.8, "L:b": 0.2],
-            ["L:b": 0.7, "L:c": 0.3]
+            ["a": 0.9, "b": 0.1],
+            ["a": 0.55, "c": 0.4],
+            ["d": 0.8, "b": 0.2],
+            ["b": 0.7, "c": 0.3]
         ])
         let viewModel = PredictionViewModel(scorer: scorer, repository: repository())
 
@@ -61,7 +58,7 @@ final class PredictionViewModelTests: XCTestCase {
     }
 
     func testAnalyzeIgnoresCropsBeyondFourSlots() {
-        let scores = ["L:a": 0.9]
+        let scores = ["a": 0.9]
         let viewModel = PredictionViewModel(scorer: FakeScorer(Array(repeating: scores, count: 6)), repository: repository())
 
         viewModel.analyze(crops: Array(repeating: blank, count: 6))
@@ -80,7 +77,7 @@ final class PredictionViewModelTests: XCTestCase {
     }
 
     func testSelectSwitchesChosenCandidateAndClearsLowConfidence() throws {
-        let scorer = FakeScorer([["L:a": 0.4, "L:b": 0.35]])
+        let scorer = FakeScorer([["a": 0.4, "b": 0.35]])
         let viewModel = PredictionViewModel(scorer: scorer, repository: repository())
         viewModel.analyze(crops: [blank])
         let alternative = try XCTUnwrap(viewModel.results.first?.alternatives.first)
@@ -93,7 +90,7 @@ final class PredictionViewModelTests: XCTestCase {
     }
 
     func testSelectIgnoresCandidateFromAnotherSlot() {
-        let scorer = FakeScorer([["L:a": 0.9], ["L:b": 0.9]])
+        let scorer = FakeScorer([["a": 0.9], ["b": 0.9]])
         let viewModel = PredictionViewModel(scorer: scorer, repository: repository())
         viewModel.analyze(crops: [blank, blank])
         let before = viewModel.results
