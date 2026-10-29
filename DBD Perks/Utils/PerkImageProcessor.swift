@@ -10,8 +10,7 @@ import CoreImage
 import CoreImage.CIFilterBuiltins
 import CoreML
 
-@MainActor
-class PerkImageProcessor {
+final class PerkImageProcessor {
     private let context = CIContext()
 
     /// Preprocess image: resize to the model input size, keeping RGB colors.

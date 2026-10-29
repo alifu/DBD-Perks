@@ -6,9 +6,13 @@
 import UIKit
 import CoreML
 
+/// The label the model uses for "this window is not a perk icon".
+enum ModelLabel {
+    static let background = "__background__"
+}
+
 /// Produces a probability per model label for one cropped perk icon.
-@MainActor
-protocol SlotScoring {
+protocol SlotScoring: Sendable {
     func labelScores(for crop: UIImage) throws -> [String: Double]
 }
 
@@ -21,8 +25,8 @@ enum SlotScoringError: LocalizedError {
 }
 
 /// Core ML implementation. The model is loaded once and reused for every slot.
-@MainActor
-final class CoreMLPerkScorer: SlotScoring {
+/// `MLModel.prediction` and `CIContext` rendering are thread-safe, so it can run off the main thread.
+final class CoreMLPerkScorer: SlotScoring, @unchecked Sendable {
     private let model: DBDPerkClassifierV2
     private let processor: PerkImageProcessor
 

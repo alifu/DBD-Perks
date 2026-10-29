@@ -1,0 +1,1002 @@
+[
+  {
+    "file": "scene_00.jpg",
+    "layout": "diamond",
+    "width": 640,
+    "height": 480,
+    "perks": [
+      {
+        "id": "stake_out",
+        "cx": 267.8,
+        "cy": 209.4,
+        "diagonal": 79.2
+      },
+      {
+        "id": "scourge_hook_monstrous_shrine",
+        "cx": 226.4,
+        "cy": 250.6,
+        "diagonal": 79.2
+      },
+      {
+        "id": "plot_twist",
+        "cx": 310.1,
+        "cy": 251.5,
+        "diagonal": 79.2
+      },
+      {
+        "id": "human_greed",
+        "cx": 269.2,
+        "cy": 292.2,
+        "diagonal": 79.2
+      }
+    ]
+  },
+  {
+    "file": "scene_01.jpg",
+    "layout": "row",
+    "width": 640,
+    "height": 480,
+    "perks": [
+      {
+        "id": "better_than_new",
+        "cx": 148.0,
+        "cy": 209.7,
+        "diagonal": 85.2
+      },
+      {
+        "id": "resilience",
+        "cx": 233.6,
+        "cy": 207.5,
+        "diagonal": 85.2
+      },
+      {
+        "id": "strength_in_shadows",
+        "cx": 320.1,
+        "cy": 205.3,
+        "diagonal": 85.2
+      },
+      {
+        "id": "up_the_ante",
+        "cx": 407.5,
+        "cy": 203.0,
+        "diagonal": 85.2
+      }
+    ]
+  },
+  {
+    "file": "scene_02.jpg",
+    "layout": "column",
+    "width": 640,
+    "height": 480,
+    "perks": [
+      {
+        "id": "eruption",
+        "cx": 330.6,
+        "cy": 16.6,
+        "diagonal": 118.2
+      },
+      {
+        "id": "blood_pact",
+        "cx": 333.8,
+        "cy": 146.1,
+        "diagonal": 118.2
+      },
+      {
+        "id": "im_all_ears",
+        "cx": 336.9,
+        "cy": 272.6,
+        "diagonal": 118.2
+      },
+      {
+        "id": "blood_echo",
+        "cx": 339.9,
+        "cy": 396.3,
+        "diagonal": 118.2
+      }
+    ]
+  },
+  {
+    "file": "scene_03.jpg",
+    "layout": "free",
+    "width": 640,
+    "height": 480,
+    "perks": [
+      {
+        "id": "dark_devotion",
+        "cx": 455.4,
+        "cy": 86.4,
+        "diagonal": 113.4
+      },
+      {
+        "id": "awakened_awareness",
+        "cx": 106.4,
+        "cy": 292.5,
+        "diagonal": 113.4
+      },
+      {
+        "id": "hex_nothing_but_misery",
+        "cx": 415.6,
+        "cy": 204.9,
+        "diagonal": 113.4
+      },
+      {
+        "id": "hex_no_one_escapes_death",
+        "cx": 325.5,
+        "cy": 308.5,
+        "diagonal": 113.4
+      }
+    ]
+  },
+  {
+    "file": "scene_04.jpg",
+    "layout": "diamond",
+    "width": 640,
+    "height": 480,
+    "perks": [
+      {
+        "id": "rapid_brutality",
+        "cx": 261.8,
+        "cy": 190.6,
+        "diagonal": 112.0
+      },
+      {
+        "id": "tinkerer",
+        "cx": 200.8,
+        "cy": 250.4,
+        "diagonal": 112.0
+      },
+      {
+        "id": "potential_energy",
+        "cx": 320.5,
+        "cy": 251.8,
+        "diagonal": 112.0
+      },
+      {
+        "id": "dragons_grip",
+        "cx": 259.2,
+        "cy": 312.0,
+        "diagonal": 112.0
+      }
+    ]
+  },
+  {
+    "file": "scene_05.jpg",
+    "layout": "row",
+    "width": 640,
+    "height": 480,
+    "perks": [
+      {
+        "id": "ultimate_weapon",
+        "cx": 229.1,
+        "cy": 192.0,
+        "diagonal": 121.7
+      },
+      {
+        "id": "insidious",
+        "cx": 363.1,
+        "cy": 186.8,
+        "diagonal": 121.7
+      },
+      {
+        "id": "boon_dark_theory",
+        "cx": 496.7,
+        "cy": 181.6,
+        "diagonal": 121.7
+      },
+      {
+        "id": "dark_arrogance",
+        "cx": 629.8,
+        "cy": 176.4,
+        "diagonal": 121.7
+      }
+    ]
+  },
+  {
+    "file": "scene_06.jpg",
+    "layout": "column",
+    "width": 640,
+    "height": 480,
+    "perks": [
+      {
+        "id": "solidarity",
+        "cx": 352.8,
+        "cy": 47.6,
+        "diagonal": 106.6
+      },
+      {
+        "id": "quick_quiet",
+        "cx": 351.6,
+        "cy": 163.1,
+        "diagonal": 106.6
+      },
+      {
+        "id": "dance_with_me",
+        "cx": 350.4,
+        "cy": 279.7,
+        "diagonal": 106.6
+      },
+      {
+        "id": "scourge_hook_jagged_compass",
+        "cx": 349.1,
+        "cy": 397.6,
+        "diagonal": 106.6
+      }
+    ]
+  },
+  {
+    "file": "scene_07.jpg",
+    "layout": "free",
+    "width": 640,
+    "height": 480,
+    "perks": [
+      {
+        "id": "tinkerer",
+        "cx": 289.1,
+        "cy": 156.2,
+        "diagonal": 84.8
+      },
+      {
+        "id": "solidarity",
+        "cx": 200.0,
+        "cy": 99.4,
+        "diagonal": 84.8
+      },
+      {
+        "id": "deathbound",
+        "cx": 529.1,
+        "cy": 221.0,
+        "diagonal": 84.8
+      }
+    ]
+  },
+  {
+    "file": "scene_08.jpg",
+    "layout": "diamond",
+    "width": 640,
+    "height": 480,
+    "perks": [
+      {
+        "id": "camaraderie",
+        "cx": 285.8,
+        "cy": 143.9,
+        "diagonal": 118.4
+      },
+      {
+        "id": "hex_no_one_escapes_death",
+        "cx": 226.6,
+        "cy": 204.3,
+        "diagonal": 118.4
+      },
+      {
+        "id": "red_herring",
+        "cx": 344.3,
+        "cy": 206.2,
+        "diagonal": 118.4
+      },
+      {
+        "id": "lithe",
+        "cx": 285.4,
+        "cy": 266.9,
+        "diagonal": 118.4
+      }
+    ]
+  },
+  {
+    "file": "scene_09.jpg",
+    "layout": "row",
+    "width": 640,
+    "height": 480,
+    "perks": [
+      {
+        "id": "technician",
+        "cx": 234.3,
+        "cy": 311.0,
+        "diagonal": 85.2
+      },
+      {
+        "id": "wicked",
+        "cx": 318.0,
+        "cy": 312.8,
+        "diagonal": 85.2
+      },
+      {
+        "id": "im_all_ears",
+        "cx": 403.8,
+        "cy": 314.7,
+        "diagonal": 85.2
+      },
+      {
+        "id": "weave_attunement",
+        "cx": 491.9,
+        "cy": 316.6,
+        "diagonal": 85.2
+      }
+    ]
+  },
+  {
+    "file": "scene_10.jpg",
+    "layout": "column",
+    "width": 640,
+    "height": 480,
+    "perks": [
+      {
+        "id": "calm_spirit",
+        "cx": 271.4,
+        "cy": 92.4,
+        "diagonal": 73.8
+      },
+      {
+        "id": "fire_up",
+        "cx": 270.3,
+        "cy": 173.0,
+        "diagonal": 73.8
+      },
+      {
+        "id": "hysteria",
+        "cx": 269.2,
+        "cy": 254.2,
+        "diagonal": 73.8
+      },
+      {
+        "id": "were_gonna_live_forever",
+        "cx": 268.1,
+        "cy": 336.0,
+        "diagonal": 73.8
+      }
+    ]
+  },
+  {
+    "file": "scene_11.jpg",
+    "layout": "free",
+    "width": 640,
+    "height": 480,
+    "perks": [
+      {
+        "id": "teamwork_collective_stealth",
+        "cx": 183.1,
+        "cy": 293.2,
+        "diagonal": 86.4
+      },
+      {
+        "id": "troubleshooter",
+        "cx": 542.0,
+        "cy": 144.8,
+        "diagonal": 86.4
+      },
+      {
+        "id": "adrenaline",
+        "cx": 301.9,
+        "cy": 165.1,
+        "diagonal": 86.4
+      },
+      {
+        "id": "a_nurses_calling",
+        "cx": 192.6,
+        "cy": 99.0,
+        "diagonal": 86.4
+      }
+    ]
+  },
+  {
+    "file": "scene_12.jpg",
+    "layout": "diamond",
+    "width": 640,
+    "height": 480,
+    "perks": [
+      {
+        "id": "autodidact",
+        "cx": 219.8,
+        "cy": 114.4,
+        "diagonal": 111.6
+      },
+      {
+        "id": "distressing",
+        "cx": 161.7,
+        "cy": 171.7,
+        "diagonal": 111.6
+      },
+      {
+        "id": "repressed_alliance",
+        "cx": 277.0,
+        "cy": 171.7,
+        "diagonal": 111.6
+      },
+      {
+        "id": "dance_with_me",
+        "cx": 218.6,
+        "cy": 229.1,
+        "diagonal": 111.6
+      }
+    ]
+  },
+  {
+    "file": "scene_13.jpg",
+    "layout": "row",
+    "width": 640,
+    "height": 480,
+    "perks": [
+      {
+        "id": "pharmacy",
+        "cx": 209.1,
+        "cy": 256.1,
+        "diagonal": 72.5
+      },
+      {
+        "id": "unnerving_presence",
+        "cx": 287.4,
+        "cy": 256.6,
+        "diagonal": 72.5
+      },
+      {
+        "id": "scavenger",
+        "cx": 364.7,
+        "cy": 257.1,
+        "diagonal": 72.5
+      },
+      {
+        "id": "parental_guidance",
+        "cx": 441.2,
+        "cy": 257.6,
+        "diagonal": 72.5
+      }
+    ]
+  },
+  {
+    "file": "scene_14.jpg",
+    "layout": "column",
+    "width": 640,
+    "height": 480,
+    "perks": [
+      {
+        "id": "wake_up",
+        "cx": 351.7,
+        "cy": -17.8,
+        "diagonal": 118.9
+      },
+      {
+        "id": "spirit_fury",
+        "cx": 353.3,
+        "cy": 111.9,
+        "diagonal": 118.9
+      },
+      {
+        "id": "reassurance",
+        "cx": 354.9,
+        "cy": 242.0,
+        "diagonal": 118.9
+      },
+      {
+        "id": "all_shaking_thunder",
+        "cx": 356.5,
+        "cy": 372.5,
+        "diagonal": 118.9
+      }
+    ]
+  },
+  {
+    "file": "scene_15.jpg",
+    "layout": "free",
+    "width": 640,
+    "height": 480,
+    "perks": [
+      {
+        "id": "iron_will",
+        "cx": 397.7,
+        "cy": 369.2,
+        "diagonal": 80.2
+      },
+      {
+        "id": "resurgence",
+        "cx": 162.6,
+        "cy": 348.8,
+        "diagonal": 80.2
+      },
+      {
+        "id": "iron_grasp",
+        "cx": 529.0,
+        "cy": 329.1,
+        "diagonal": 80.2
+      }
+    ]
+  },
+  {
+    "file": "scene_16.jpg",
+    "layout": "diamond",
+    "width": 640,
+    "height": 480,
+    "perks": [
+      {
+        "id": "remember_me",
+        "cx": 277.8,
+        "cy": 190.0,
+        "diagonal": 100.6
+      },
+      {
+        "id": "appraisal",
+        "cx": 221.8,
+        "cy": 246.7,
+        "diagonal": 100.6
+      },
+      {
+        "id": "sprint_burst",
+        "cx": 334.2,
+        "cy": 247.7,
+        "diagonal": 100.6
+      },
+      {
+        "id": "awakened_awareness",
+        "cx": 278.0,
+        "cy": 304.6,
+        "diagonal": 100.6
+      }
+    ]
+  },
+  {
+    "file": "scene_17.jpg",
+    "layout": "row",
+    "width": 640,
+    "height": 480,
+    "perks": [
+      {
+        "id": "breakdown",
+        "cx": 167.1,
+        "cy": 189.1,
+        "diagonal": 90.8
+      },
+      {
+        "id": "friendly_competition",
+        "cx": 261.3,
+        "cy": 187.6,
+        "diagonal": 90.8
+      },
+      {
+        "id": "overzealous",
+        "cx": 355.4,
+        "cy": 186.1,
+        "diagonal": 90.8
+      },
+      {
+        "id": "discordance",
+        "cx": 449.4,
+        "cy": 184.6,
+        "diagonal": 90.8
+      }
+    ]
+  },
+  {
+    "file": "scene_18.jpg",
+    "layout": "column",
+    "width": 640,
+    "height": 480,
+    "perks": [
+      {
+        "id": "camaraderie",
+        "cx": 220.3,
+        "cy": 135.3,
+        "diagonal": 105.4
+      },
+      {
+        "id": "quick_quiet",
+        "cx": 220.1,
+        "cy": 244.8,
+        "diagonal": 105.4
+      },
+      {
+        "id": "low_profile",
+        "cx": 220.0,
+        "cy": 352.4,
+        "diagonal": 105.4
+      },
+      {
+        "id": "finesse",
+        "cx": 219.9,
+        "cy": 457.9,
+        "diagonal": 105.4
+      }
+    ]
+  },
+  {
+    "file": "scene_19.jpg",
+    "layout": "free",
+    "width": 640,
+    "height": 480,
+    "perks": [
+      {
+        "id": "teamwork_power_of_two",
+        "cx": 532.3,
+        "cy": 306.4,
+        "diagonal": 74.2
+      },
+      {
+        "id": "furtive_chase",
+        "cx": 301.6,
+        "cy": 266.8,
+        "diagonal": 74.2
+      },
+      {
+        "id": "hex_crowd_control",
+        "cx": 426.7,
+        "cy": 296.5,
+        "diagonal": 74.2
+      },
+      {
+        "id": "shoulder_the_burden",
+        "cx": 248.4,
+        "cy": 390.8,
+        "diagonal": 74.2
+      }
+    ]
+  },
+  {
+    "file": "scene_20.jpg",
+    "layout": "diamond",
+    "width": 640,
+    "height": 480,
+    "perks": [
+      {
+        "id": "inner_strength",
+        "cx": 411.2,
+        "cy": 188.8,
+        "diagonal": 100.0
+      },
+      {
+        "id": "any_means_necessary",
+        "cx": 355.8,
+        "cy": 243.7,
+        "diagonal": 100.0
+      },
+      {
+        "id": "dominance",
+        "cx": 469.3,
+        "cy": 241.5,
+        "diagonal": 100.0
+      },
+      {
+        "id": "hex_devour_hope",
+        "cx": 413.9,
+        "cy": 296.5,
+        "diagonal": 100.0
+      }
+    ]
+  },
+  {
+    "file": "scene_21.jpg",
+    "layout": "row",
+    "width": 640,
+    "height": 480,
+    "perks": [
+      {
+        "id": "appraisal",
+        "cx": 61.1,
+        "cy": 295.6,
+        "diagonal": 79.1
+      },
+      {
+        "id": "a_nurses_calling",
+        "cx": 147.2,
+        "cy": 293.2,
+        "diagonal": 79.1
+      },
+      {
+        "id": "thrilling_tremors",
+        "cx": 233.6,
+        "cy": 290.7,
+        "diagonal": 79.1
+      },
+      {
+        "id": "plot_twist",
+        "cx": 320.1,
+        "cy": 288.2,
+        "diagonal": 79.1
+      }
+    ]
+  },
+  {
+    "file": "scene_22.jpg",
+    "layout": "column",
+    "width": 640,
+    "height": 480,
+    "perks": [
+      {
+        "id": "tinkerer",
+        "cx": 317.9,
+        "cy": 79.9,
+        "diagonal": 116.7
+      },
+      {
+        "id": "hysteria",
+        "cx": 315.5,
+        "cy": 208.7,
+        "diagonal": 116.7
+      },
+      {
+        "id": "slippery_meat",
+        "cx": 313.2,
+        "cy": 334.2,
+        "diagonal": 116.7
+      },
+      {
+        "id": "spirit_fury",
+        "cx": 310.9,
+        "cy": 456.5,
+        "diagonal": 116.7
+      }
+    ]
+  },
+  {
+    "file": "scene_23.jpg",
+    "layout": "free",
+    "width": 640,
+    "height": 480,
+    "perks": [
+      {
+        "id": "genetic_limits",
+        "cx": 419.5,
+        "cy": 219.9,
+        "diagonal": 85.6
+      },
+      {
+        "id": "boon_circle_of_healing",
+        "cx": 124.6,
+        "cy": 399.2,
+        "diagonal": 85.6
+      },
+      {
+        "id": "awakened_awareness",
+        "cx": 537.4,
+        "cy": 218.5,
+        "diagonal": 85.6
+      }
+    ]
+  },
+  {
+    "file": "scene_24.jpg",
+    "layout": "diamond",
+    "width": 640,
+    "height": 480,
+    "perks": [
+      {
+        "id": "were_gonna_live_forever",
+        "cx": 221.7,
+        "cy": 136.8,
+        "diagonal": 110.5
+      },
+      {
+        "id": "whispers",
+        "cx": 160.3,
+        "cy": 194.4,
+        "diagonal": 110.5
+      },
+      {
+        "id": "dark_arrogance",
+        "cx": 281.8,
+        "cy": 196.6,
+        "diagonal": 110.5
+      },
+      {
+        "id": "franklins_demise",
+        "cx": 220.8,
+        "cy": 254.4,
+        "diagonal": 110.5
+      }
+    ]
+  },
+  {
+    "file": "scene_25.jpg",
+    "layout": "row",
+    "width": 640,
+    "height": 480,
+    "perks": [
+      {
+        "id": "teamwork_power_of_two",
+        "cx": 135.1,
+        "cy": 167.8,
+        "diagonal": 118.8
+      },
+      {
+        "id": "cruel_limits",
+        "cx": 253.4,
+        "cy": 165.7,
+        "diagonal": 118.8
+      },
+      {
+        "id": "deerstalker",
+        "cx": 374.1,
+        "cy": 163.5,
+        "diagonal": 118.8
+      },
+      {
+        "id": "quick_gambit",
+        "cx": 497.1,
+        "cy": 161.3,
+        "diagonal": 118.8
+      }
+    ]
+  },
+  {
+    "file": "scene_26.jpg",
+    "layout": "column",
+    "width": 640,
+    "height": 480,
+    "perks": [
+      {
+        "id": "starstruck",
+        "cx": 213.4,
+        "cy": 130.1,
+        "diagonal": 100.4
+      },
+      {
+        "id": "botany_knowledge",
+        "cx": 212.5,
+        "cy": 236.8,
+        "diagonal": 100.4
+      },
+      {
+        "id": "mirrored_illusion",
+        "cx": 211.6,
+        "cy": 344.3,
+        "diagonal": 100.4
+      },
+      {
+        "id": "weave_attunement",
+        "cx": 210.6,
+        "cy": 452.8,
+        "diagonal": 100.4
+      }
+    ]
+  },
+  {
+    "file": "scene_27.jpg",
+    "layout": "free",
+    "width": 640,
+    "height": 480,
+    "perks": [
+      {
+        "id": "boil_over",
+        "cx": 301.8,
+        "cy": 74.3,
+        "diagonal": 103.6
+      },
+      {
+        "id": "kindred",
+        "cx": 480.3,
+        "cy": 97.7,
+        "diagonal": 103.6
+      },
+      {
+        "id": "moment_of_glory",
+        "cx": 304.6,
+        "cy": 389.1,
+        "diagonal": 103.6
+      },
+      {
+        "id": "mettle_of_man",
+        "cx": 222.4,
+        "cy": 179.8,
+        "diagonal": 103.6
+      }
+    ]
+  },
+  {
+    "file": "scene_28.jpg",
+    "layout": "diamond",
+    "width": 640,
+    "height": 480,
+    "perks": [
+      {
+        "id": "no_one_left_behind",
+        "cx": 317.7,
+        "cy": 154.0,
+        "diagonal": 92.1
+      },
+      {
+        "id": "alien_instinct",
+        "cx": 267.9,
+        "cy": 201.5,
+        "diagonal": 92.1
+      },
+      {
+        "id": "head_on",
+        "cx": 363.1,
+        "cy": 202.0,
+        "diagonal": 92.1
+      },
+      {
+        "id": "bardic_inspiration",
+        "cx": 313.8,
+        "cy": 249.1,
+        "diagonal": 92.1
+      }
+    ]
+  },
+  {
+    "file": "scene_29.jpg",
+    "layout": "row",
+    "width": 640,
+    "height": 480,
+    "perks": [
+      {
+        "id": "forced_hesitation",
+        "cx": 157.5,
+        "cy": 196.7,
+        "diagonal": 99.5
+      },
+      {
+        "id": "boon_exponential",
+        "cx": 264.9,
+        "cy": 199.5,
+        "diagonal": 99.5
+      },
+      {
+        "id": "reactive_healing",
+        "cx": 371.8,
+        "cy": 202.3,
+        "diagonal": 99.5
+      },
+      {
+        "id": "wake_up",
+        "cx": 478.2,
+        "cy": 205.0,
+        "diagonal": 99.5
+      }
+    ]
+  },
+  {
+    "file": "scene_30.jpg",
+    "layout": "column",
+    "width": 640,
+    "height": 480,
+    "perks": [
+      {
+        "id": "blood_pact",
+        "cx": 328.0,
+        "cy": 29.4,
+        "diagonal": 124.0
+      },
+      {
+        "id": "saboteur",
+        "cx": 328.9,
+        "cy": 162.4,
+        "diagonal": 124.0
+      },
+      {
+        "id": "help_wanted",
+        "cx": 329.7,
+        "cy": 297.0,
+        "diagonal": 124.0
+      },
+      {
+        "id": "detectives_hunch",
+        "cx": 330.6,
+        "cy": 433.2,
+        "diagonal": 124.0
+      }
+    ]
+  },
+  {
+    "file": "scene_31.jpg",
+    "layout": "free",
+    "width": 640,
+    "height": 480,
+    "perks": [
+      {
+        "id": "bloodhound",
+        "cx": 253.3,
+        "cy": 323.0,
+        "diagonal": 121.6
+      },
+      {
+        "id": "thrilling_tremors",
+        "cx": 440.4,
+        "cy": 405.7,
+        "diagonal": 121.6
+      },
+      {
+        "id": "invocation_weaving_spiders",
+        "cx": 503.7,
+        "cy": 285.7,
+        "diagonal": 121.6
+      }
+    ]
+  }
+]

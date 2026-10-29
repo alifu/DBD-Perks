@@ -15,13 +15,13 @@ struct CaptureView: View {
         ZStack {
             CameraView(image: $viewModel.currentFrame,
                        viewSize: $viewModel.previewSize,
-                       layout: viewModel.layout)
+                       layout: viewModel.mode.guideLayout)
             
             if viewModel.currentFrame != nil {
                 VStack {
-                    Picker("Layout", selection: $viewModel.layout) {
-                        ForEach(PerkSlotLayout.allCases) { layout in
-                            Text(layout.title).tag(layout)
+                    Picker("Mode", selection: $viewModel.mode) {
+                        ForEach(CaptureMode.allCases) { mode in
+                            Text(mode.title).tag(mode)
                         }
                     }
                     .pickerStyle(.segmented)
@@ -50,7 +50,7 @@ struct CaptureView: View {
             }
         }
         .sheet(isPresented: $viewModel.showingSheet) {
-            PredictionView(crops: viewModel.capturedCrops)
+            PredictionView(photo: viewModel.capturedImage, guideCrops: viewModel.capturedCrops)
         }
     }
 }

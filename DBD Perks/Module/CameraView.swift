@@ -11,7 +11,8 @@ struct CameraView: View {
     
     @Binding var image: CGImage?
     @Binding var viewSize: CGSize
-    let layout: PerkSlotLayout
+    /// nil in auto mode: nothing to line up.
+    let layout: PerkSlotLayout?
     
     var body: some View {
         GeometryReader { geometry in
@@ -29,8 +30,10 @@ struct CameraView: View {
                                height: geometry.size.height)
                 }
                 
-                PerkSlotOverlay(slots: layout.slots(in: geometry.size))
-                    .allowsHitTesting(false)
+                if let layout {
+                    PerkSlotOverlay(slots: layout.slots(in: geometry.size))
+                        .allowsHitTesting(false)
+                }
             }
             .onAppear { viewSize = geometry.size }
             .onChange(of: geometry.size) { _, newSize in viewSize = newSize }

@@ -5,7 +5,7 @@
 
 import Foundation
 
-protocol PerkRepository {
+protocol PerkRepository: Sendable {
     func perk(id: String) -> PerkInfo?
     /// The v2 model's labels are perk ids. nil when a label is not in the bundled data (e.g. a newer model).
     func perkID(forModelLabel label: String) -> String?

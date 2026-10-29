@@ -20,7 +20,7 @@ struct PerkCardView: View {
             HStack(alignment: .top, spacing: 12) {
                 icon
                 VStack(alignment: .leading, spacing: 4) {
-                    Text(perk?.name ?? "Unknown perk")
+                    Text("\(result.slot + 1) · \(perk?.name ?? "Unknown perk")")
                         .font(.headline)
                     if let perk {
                         Text(subtitle(for: perk))

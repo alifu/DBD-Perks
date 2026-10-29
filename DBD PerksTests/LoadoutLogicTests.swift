@@ -49,11 +49,12 @@ final class LoadoutLogicTests: XCTestCase {
         let model = try DBDPerkClassifierV2(configuration: .init())
         let labels = try XCTUnwrap(model.model.modelDescription.classLabels as? [String])
 
-        let orphans = labels.filter { repository.perkID(forModelLabel: $0) == nil }
+        let orphans = labels.filter { $0 != ModelLabel.background && repository.perkID(forModelLabel: $0) == nil }
 
         XCTAssertGreaterThan(repository.allPerks.count, 250)
         XCTAssertEqual(orphans, [], "every label the model can output must have wiki data")
         XCTAssertGreaterThanOrEqual(labels.count, 270)
+        XCTAssertTrue(labels.contains(ModelLabel.background), "the detector needs a 'not a perk' class")
     }
 
     // MARK: Resolver
