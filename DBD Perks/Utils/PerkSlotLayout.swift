@@ -15,16 +15,24 @@ struct PerkSlot: Equatable {
     /// Corner-to-corner size of the diamond frame.
     let diagonal: CGFloat
 
-    var cropRect: CGRect {
-        let side = diagonal * Self.cropFractionOfDiagonal
+    /// The square that fits inside the diamond: what the guide shows as "inside".
+    var cropRect: CGRect { squareRect(fractionOfDiagonal: Self.cropFractionOfDiagonal) }
+
+    /// The square handed to the classifier. Wider than `cropRect` because the model was trained on crops
+    /// that include a little of the diamond's surroundings (same fraction `PerkLocator` verifies with).
+    var classifierCropRect: CGRect { squareRect(fractionOfDiagonal: PerkLocator.cropFractions[0]) }
+
+    private func squareRect(fractionOfDiagonal: CGFloat) -> CGRect {
+        let side = diagonal * fractionOfDiagonal
         return CGRect(x: center.x - side / 2, y: center.y - side / 2, width: side, height: side)
     }
 }
 
-/// How the four perks are arranged on screen. Both layouts produce at most `PerkSlotLayout.maxSlots` slots.
+/// How the perks are arranged on screen. Every layout produces at most `PerkSlotLayout.maxSlots` slots.
 enum PerkSlotLayout: String, CaseIterable, Identifiable {
     static let maxSlots = 4
 
+    case single
     case diamond
     case row
 
@@ -32,18 +40,22 @@ enum PerkSlotLayout: String, CaseIterable, Identifiable {
 
     var title: String {
         switch self {
+        case .single: return "Single"
         case .diamond: return "Diamond"
         case .row: return "Row"
         }
     }
 
     private static let diamondWidthFraction: CGFloat = 0.3
+    private static let singleWidthFraction: CGFloat = 0.5
     private static let rowWidthFraction: CGFloat = 0.22
     private static let spacingFactor: CGFloat = 1.05
 
     func slots(in size: CGSize) -> [PerkSlot] {
         let center = CGPoint(x: size.width / 2, y: size.height / 2)
         switch self {
+        case .single:
+            return [PerkSlot(center: center, diagonal: size.width * Self.singleWidthFraction)]
         case .diamond:
             let diagonal = size.width * Self.diamondWidthFraction
             let offset = diagonal / 2 * Self.spacingFactor

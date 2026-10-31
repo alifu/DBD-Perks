@@ -12,6 +12,8 @@ struct PerkCardView: View {
     let crop: UIImage?
     let alternativeName: (PerkCandidate) -> String
     let onSelect: (PerkCandidate) -> Void
+    /// Debug builds only: lets the tester say what the perk really was.
+    var onReportWrong: (() -> Void)?
 
     private let iconSize: CGFloat = 72
 
@@ -20,7 +22,7 @@ struct PerkCardView: View {
             HStack(alignment: .top, spacing: 12) {
                 icon
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("\(result.slot + 1) · \(perk?.name ?? "Unknown perk")")
+                    Text("\(result.slot + 1) · \(perk?.name ?? "Not recognised")")
                         .font(.headline)
                     if let perk {
                         Text(subtitle(for: perk))
@@ -51,7 +53,7 @@ struct PerkCardView: View {
                         .foregroundStyle(.secondary)
                 }
             } else {
-                Text("No matching perk found for this slot. Try framing the icon inside the diamond.")
+                Text("The model is not sure what this is. It may be a newer perk than the app knows. Try framing the icon inside the diamond, or pick the closest guess below.")
                     .font(.callout)
                     .foregroundStyle(.secondary)
             }
@@ -64,7 +66,14 @@ struct PerkCardView: View {
                         }
                     }
                 } label: {
-                    Label("Not right? Pick another", systemImage: "arrow.triangle.2.circlepath")
+                    Label(result.chosen == nil ? "Pick the closest guess" : "Not right? Pick another", systemImage: "arrow.triangle.2.circlepath")
+                        .font(.footnote.weight(.semibold))
+                }
+            }
+
+            if let onReportWrong {
+                Button(action: onReportWrong) {
+                    Label("Wrong? Tell me the real perk", systemImage: "exclamationmark.bubble")
                         .font(.footnote.weight(.semibold))
                 }
             }

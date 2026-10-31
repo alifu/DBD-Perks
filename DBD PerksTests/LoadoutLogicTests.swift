@@ -102,11 +102,21 @@ final class LoadoutLogicTests: XCTestCase {
 
     // MARK: Geometry
 
+    func testSingleLayoutProducesOneCenteredSlotInsideTheScreen() {
+        let size = CGSize(width: 390, height: 844)
+
+        let slots = PerkSlotLayout.single.slots(in: size)
+
+        XCTAssertEqual(slots.count, 1)
+        XCTAssertEqual(slots.first?.center, CGPoint(x: 195, y: 422))
+        XCTAssertTrue(CGRect(origin: .zero, size: size).contains(slots[0].cropRect))
+    }
+
     func testSlotLayoutsProduceFourDistinctSlotsInsideTheScreen() {
         let size = CGSize(width: 390, height: 844)
         let bounds = CGRect(origin: .zero, size: size)
 
-        for layout in PerkSlotLayout.allCases {
+        for layout in PerkSlotLayout.allCases where layout != .single {
             let slots = layout.slots(in: size)
 
             XCTAssertEqual(slots.count, PerkSlotLayout.maxSlots, layout.title)

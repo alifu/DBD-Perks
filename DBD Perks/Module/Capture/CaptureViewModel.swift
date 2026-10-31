@@ -19,6 +19,7 @@ protocol CameraProvider {
 /// How the perks get found: automatically anywhere in the photo, or by lining them up with a guide.
 enum CaptureMode: Hashable, CaseIterable, Identifiable {
     case auto
+    case single
     case diamond
     case row
 
@@ -27,6 +28,7 @@ enum CaptureMode: Hashable, CaseIterable, Identifiable {
     var title: String {
         switch self {
         case .auto: return "Auto"
+        case .single: return PerkSlotLayout.single.title
         case .diamond: return PerkSlotLayout.diamond.title
         case .row: return PerkSlotLayout.row.title
         }
@@ -35,6 +37,7 @@ enum CaptureMode: Hashable, CaseIterable, Identifiable {
     var guideLayout: PerkSlotLayout? {
         switch self {
         case .auto: return nil
+        case .single: return .single
         case .diamond: return .diamond
         case .row: return .row
         }
@@ -90,10 +93,10 @@ class CaptureViewModel {
         showingSheet = true
     }
     
-    /// Cuts the photo into the (at most four) perk slots that were visible in the guide.
+    /// Cuts the photo into the (at most four) perk slots that were visible in the guide, framed like the training crops.
     func crops(from photo: UIImage, layout: PerkSlotLayout) -> [UIImage] {
         layout.slots(in: previewSize).compactMap {
-            photo.cropped(toViewRect: $0.cropRect, viewSize: previewSize)
+            photo.cropped(toViewRect: $0.classifierCropRect, viewSize: previewSize)
         }
     }
     

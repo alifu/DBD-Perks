@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import NukeUI
 
 struct PredictionView: View {
 
@@ -13,6 +14,8 @@ struct PredictionView: View {
     let photo: UIImage?
     let guideCrops: [UIImage]
     @State private var viewModel = PredictionViewModel()
+    @State private var reportingSlot: Int?
+    @State private var savedMessage: String?
 
     var body: some View {
         ScrollView {
@@ -27,6 +30,26 @@ struct PredictionView: View {
             .padding(16)
         }
         .task { await analyze() }
+        .sheet(item: $reportingSlot) { slot in
+            CorrectionPickerView(perks: viewModel.allPerks) { perk in
+                let saved = viewModel.reportWrong(slot: slot, correctPerkID: perk.id)
+                savedMessage = saved ? "Saved as \(perk.name)" : "Could not save"
+                reportingSlot = nil
+            }
+        }
+        .overlay(alignment: .bottom) {
+            if let savedMessage {
+                Text(savedMessage)
+                    .font(.footnote.weight(.semibold))
+                    .padding(10)
+                    .background(.thinMaterial, in: Capsule())
+                    .padding(.bottom, 12)
+                    .task {
+                        try? await Task.sleep(for: .seconds(2))
+                        self.savedMessage = nil
+                    }
+            }
+        }
     }
 
     @ViewBuilder
@@ -53,7 +76,8 @@ struct PredictionView: View {
                     perk: result.chosen.flatMap { viewModel.perk(id: $0.perkID) },
                     crop: viewModel.slotImages.indices.contains(result.slot) ? viewModel.slotImages[result.slot] : nil,
                     alternativeName: { viewModel.perk(id: $0.perkID)?.name ?? $0.perkID },
-                    onSelect: { viewModel.select($0, inSlot: result.slot) }
+                    onSelect: { viewModel.select($0, inSlot: result.slot) },
+                    onReportWrong: viewModel.canReportWrongPerk ? { reportingSlot = result.slot } : nil
                 )
             }
         }
@@ -64,6 +88,50 @@ struct PredictionView: View {
             viewModel.analyze(crops: guideCrops)
         } else if let photo {
             await viewModel.analyze(photo: photo)
+        }
+    }
+}
+
+extension Int: @retroactive Identifiable {
+    public var id: Int { self }
+}
+
+/// Debug builds only: a searchable list of every perk, to say which one a crop really shows.
+struct CorrectionPickerView: View {
+    let perks: [PerkInfo]
+    let onPick: (PerkInfo) -> Void
+    @State private var query = ""
+
+    private var matches: [PerkInfo] {
+        query.isEmpty ? perks : perks.filter { $0.name.localizedCaseInsensitiveContains(query) }
+    }
+
+    var body: some View {
+        NavigationStack {
+            List(matches, id: \.id) { perk in
+                Button { onPick(perk) } label: {
+                    HStack(spacing: 12) {
+                        LazyImage(url: perk.iconUrl) { state in
+                            if let image = state.image {
+                                image.resizable().scaledToFit()
+                            } else {
+                                Color.gray.opacity(0.2)
+                            }
+                        }
+                        .frame(width: 44, height: 44)
+                        .clipShape(RoundedRectangle(cornerRadius: 8))
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(perk.name).foregroundStyle(.primary)
+                            Text(perk.owner.isEmpty ? perk.role.rawValue.capitalized : "\(perk.role.rawValue.capitalized) · \(perk.owner)")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+                }
+            }
+            .searchable(text: $query)
+            .navigationTitle("Which perk is it?")
+            .navigationBarTitleDisplayMode(.inline)
         }
     }
 }

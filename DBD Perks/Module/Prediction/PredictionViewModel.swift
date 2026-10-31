@@ -23,43 +23,62 @@ final class PredictionViewModel {
     private(set) var slotImages: [UIImage] = []
 
     @ObservationIgnored private let scorer: SlotScoring?
+    /// Scores the few guide crops; averages several shifted views of each. The locator keeps the plain `scorer`.
+    @ObservationIgnored private let guideScorer: SlotScoring?
     @ObservationIgnored private let repository: PerkRepository?
+    @ObservationIgnored private let recorder: ScanRecorder?
+    @ObservationIgnored private var lastScanID: String?
 
     /// Production wiring: bundled data + Core ML model. Failures are shown instead of swallowed.
     init() {
         do {
             let live = try Self.makeLiveDependencies()
             scorer = live.scorer
+            guideScorer = TestTimeAugmentingScorer(base: live.scorer)
             repository = live.repository
         } catch {
             scorer = nil
+            guideScorer = nil
             repository = nil
             errorMessage = error.localizedDescription
         }
+#if DEBUG
+        recorder = ScanRecorder.inDocuments()
+#else
+        recorder = nil
+#endif
     }
 
     private static func makeLiveDependencies() throws -> (scorer: SlotScoring, repository: PerkRepository) {
         (try CoreMLPerkScorer(), try BundledPerkRepository())
     }
 
-    init(scorer: SlotScoring, repository: PerkRepository) {
+    init(scorer: SlotScoring, repository: PerkRepository, guideScorer: SlotScoring? = nil, recorder: ScanRecorder? = nil) {
         self.scorer = scorer
+        self.guideScorer = guideScorer ?? scorer
         self.repository = repository
+        self.recorder = recorder
     }
 
     func perk(id: String) -> PerkInfo? { repository?.perk(id: id) }
 
+    var allPerks: [PerkInfo] { repository?.allPerks ?? [] }
+
+    /// Debug builds only: a log exists to collect wrong answers.
+    var canReportWrongPerk: Bool { recorder != nil }
+
     /// Guide mode: the user lined the perks up, so every crop is one slot.
     func analyze(crops: [UIImage]) {
-        guard let scorer, let repository else { return }
+        guard let guideScorer, let repository else { return }
         errorMessage = nil
         let resolver = LoadoutResolver(repository: repository)
         let slotCrops = Array(crops.prefix(PerkSlotLayout.maxSlots))
         do {
-            let slotCandidates = try slotCrops.map { resolver.candidates(from: try scorer.labelScores(for: $0)) }
+            let slotCandidates = try slotCrops.map { resolver.candidates(from: try guideScorer.labelScores(for: $0)) }
             results = resolver.resolve(slotCandidates)
             slotImages = slotCrops
             regions = []
+            lastScanID = recorder?.recordScan(source: "guide", crops: slotCrops, results: results)
         } catch {
             results = []
             errorMessage = error.localizedDescription
@@ -78,6 +97,7 @@ final class PredictionViewModel {
         results = LoadoutResolver(repository: repository).resolve(found.map(\.candidates))
         regions = found.map(\.region)
         slotImages = found.map { photo.cropped(toNormalizedRect: $0.region) ?? UIImage() }
+        lastScanID = recorder?.recordScan(source: "auto", crops: slotImages, results: results)
         isAnalyzing = false
         hasAnalyzed = true
     }
@@ -88,5 +108,15 @@ final class PredictionViewModel {
             guard result.slot == slot, result.candidates.contains(candidate) else { return result }
             return SlotResult(slot: slot, candidates: result.candidates, chosen: candidate, isLowConfidence: false)
         }
+    }
+
+    /// Files the slot's crop under the perk it really is. Returns false when logging is off or the write failed.
+    @discardableResult
+    func reportWrong(slot: Int, correctPerkID: String) -> Bool {
+        guard let recorder, let lastScanID, let result = results.first(where: { $0.slot == slot }),
+              slotImages.indices.contains(slot) else { return false }
+        let correction = CorrectionRecord(scanID: lastScanID, slot: slot, correctPerkID: correctPerkID,
+                                          predictedPerkID: result.chosen?.perkID, topCandidates: result.candidates)
+        return recorder.saveCorrection(correction, crop: slotImages[slot])
     }
 }

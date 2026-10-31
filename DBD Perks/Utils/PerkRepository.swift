@@ -6,6 +6,7 @@
 import Foundation
 
 protocol PerkRepository: Sendable {
+    var allPerks: [PerkInfo] { get }
     func perk(id: String) -> PerkInfo?
     /// The v2 model's labels are perk ids. nil when a label is not in the bundled data (e.g. a newer model).
     func perkID(forModelLabel label: String) -> String?
@@ -34,7 +35,7 @@ struct BundledPerkRepository: PerkRepository {
         self.init(perks: document.perks)
     }
 
-    var allPerks: [PerkInfo] { Array(perksByID.values) }
+    var allPerks: [PerkInfo] { perksByID.values.sorted { $0.name < $1.name } }
 
     func perk(id: String) -> PerkInfo? { perksByID[id] }
 

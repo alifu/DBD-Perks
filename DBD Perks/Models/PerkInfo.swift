@@ -17,7 +17,8 @@ struct PerkInfo: Codable, Identifiable, Equatable {
     let role: Role
     /// Empty for generic (teachable) perks.
     let owner: String
-    let iconUrl: URL
+    /// nil for perks newer than the wiki icons the app bundles; the card then shows the scanned crop instead.
+    let iconUrl: URL?
     let description: String
     let flavor: String
     /// Set when the wiki text describes an upcoming patch rather than the live game.
