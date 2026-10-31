@@ -1,0 +1,28 @@
+{
+  "perks": [
+    { "id": "a_nurses_calling", "name": "A Nurse's Calling", "role": "survivor", "owner": "", "description": "See auras of healing survivors." },
+    { "id": "nurse_extra", "name": "Nurse Extra", "role": "survivor", "owner": "", "description": "d" },
+    { "id": "adrenaline", "name": "Adrenaline", "role": "survivor", "owner": "", "description": "d" },
+    { "id": "hex_ruin", "name": "Hex: Ruin", "role": "killer", "owner": "The Hag", "description": "d" }
+  ],
+  "addons": [
+    { "id": "honing_stone", "name": "Honing Stone", "ownerName": "The Trapper", "rarity": "rare", "description": "d" },
+    { "id": "ghost_nurse_bell", "name": "Ghost Nurse Bell", "ownerName": "The Wraith", "rarity": "veryrare", "description": "d" },
+    { "id": "rusty", "name": "Rusty Spring", "ownerName": "The Trapper", "rarity": "common", "description": "Speeds up nurse healing." }
+  ],
+  "cases": [
+    { "name": "apostrophe names are found without typing the apostrophe", "query": { "text": "nurses calling" }, "expected": ["a_nurses_calling"] },
+    { "name": "prefix, then word prefix (alphabetical), name only", "query": { "text": "nurse" }, "expected": ["nurse_extra", "a_nurses_calling", "ghost_nurse_bell"] },
+    { "name": "description matches come last when enabled", "query": { "text": "nurse", "includeDescriptions": true }, "expected": ["nurse_extra", "a_nurses_calling", "ghost_nurse_bell", "rusty"] },
+    { "name": "descriptions are ignored by default", "query": { "text": "healing" }, "expected": [] },
+    { "name": "description search is alphabetical within a rank", "query": { "text": "healing", "includeDescriptions": true }, "expected": ["a_nurses_calling", "rusty"] },
+    { "name": "case and punctuation are ignored", "query": { "text": "HEX: RUIN!" }, "expected": ["hex_ruin"] },
+    { "name": "substring match", "query": { "text": "ruin" }, "expected": ["hex_ruin"] },
+    { "name": "empty query returns everything sorted by name", "query": {}, "expected": ["a_nurses_calling", "adrenaline", "ghost_nurse_bell", "hex_ruin", "honing_stone", "nurse_extra", "rusty"] },
+    { "name": "kind filter", "query": { "kind": "addon" }, "expected": ["ghost_nurse_bell", "honing_stone", "rusty"] },
+    { "name": "role filter", "query": { "role": "killer" }, "expected": ["ghost_nurse_bell", "hex_ruin", "honing_stone", "rusty"] },
+    { "name": "rarity filter hides perks", "query": { "rarity": "veryrare" }, "expected": ["ghost_nurse_bell"] },
+    { "name": "owner filter", "query": { "owner": "The Wraith" }, "expected": ["ghost_nurse_bell"] },
+    { "name": "filters combine with text", "query": { "text": "s", "owner": "The Trapper" }, "expected": ["honing_stone", "rusty"] }
+  ]
+}

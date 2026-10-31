@@ -91,3 +91,5 @@ graphify-out/
 DBD Perks/Resources/AddonIcons/
 DBD Perks/DBDAddonClassifierV1.mlpackage/
 DBD Perks/Resources/PerkIcons/
+DBD PerksTests/Fixtures/real/*.jpeg
+DBD PerksTests/Fixtures/scenes/*.jpg

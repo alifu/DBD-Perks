@@ -1,0 +1,46 @@
+{
+  "cases": [
+    {
+      "name": "four clean slots keep their top pick",
+      "slots": [[["a", 0.9], ["x", 0.05]], [["b", 0.9], ["x", 0.05]], [["c", 0.9], ["x", 0.05]], [["d", 0.9], ["x", 0.05]]],
+      "chosen": ["a", "b", "c", "d"],
+      "lowConfidence": [false, false, false, false]
+    },
+    {
+      "name": "a duplicate goes to the slot that is surer; the other slot is flagged",
+      "slots": [[["a", 0.8], ["b", 0.1]], [["a", 0.7], ["c", 0.25]]],
+      "chosen": ["a", "c"],
+      "lowConfidence": [false, true]
+    },
+    {
+      "name": "below the recognition threshold nothing is chosen",
+      "slots": [[["a", 0.1], ["b", 0.05]]],
+      "chosen": [null],
+      "lowConfidence": [true]
+    },
+    {
+      "name": "a narrow lead over the runner-up is flagged",
+      "slots": [[["a", 0.55], ["b", 0.45]]],
+      "chosen": ["a"],
+      "lowConfidence": [true]
+    },
+    {
+      "name": "a recognised but weak pick is flagged",
+      "slots": [[["a", 0.4], ["b", 0.1]]],
+      "chosen": ["a"],
+      "lowConfidence": [true]
+    },
+    {
+      "name": "a slot without candidates stays empty",
+      "slots": [[]],
+      "chosen": [null],
+      "lowConfidence": [true]
+    },
+    {
+      "name": "the same perk in every slot is kept only once",
+      "slots": [[["a", 0.9]], [["a", 0.8]], [["a", 0.7]], [["a", 0.6]]],
+      "chosen": ["a", null, null, null],
+      "lowConfidence": [false, true, true, true]
+    }
+  ]
+}
