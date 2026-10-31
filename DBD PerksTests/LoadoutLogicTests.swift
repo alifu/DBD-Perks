@@ -116,7 +116,7 @@ final class LoadoutLogicTests: XCTestCase {
         let size = CGSize(width: 390, height: 844)
         let bounds = CGRect(origin: .zero, size: size)
 
-        for layout in PerkSlotLayout.allCases where layout != .single {
+        for layout in PerkSlotLayout.allCases where layout != .single && layout != .addon {
             let slots = layout.slots(in: size)
 
             XCTAssertEqual(slots.count, PerkSlotLayout.maxSlots, layout.title)

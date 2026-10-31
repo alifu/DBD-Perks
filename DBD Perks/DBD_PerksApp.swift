@@ -11,7 +11,12 @@ import SwiftUI
 struct DBD_PerksApp: App {
     var body: some Scene {
         WindowGroup {
-            CaptureView()
+            TabView {
+                CaptureView()
+                    .tabItem { Label("Scan", systemImage: "camera") }
+                CatalogView()
+                    .tabItem { Label("Catalog", systemImage: "books.vertical") }
+            }
         }
     }
 }

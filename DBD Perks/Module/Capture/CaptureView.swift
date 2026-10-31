@@ -20,7 +20,7 @@ struct CaptureView: View {
             if viewModel.currentFrame != nil {
                 VStack {
                     Picker("Mode", selection: $viewModel.mode) {
-                        ForEach(CaptureMode.allCases) { mode in
+                        ForEach(CaptureMode.selectable) { mode in
                             Text(mode.title).tag(mode)
                         }
                     }
@@ -50,7 +50,11 @@ struct CaptureView: View {
             }
         }
         .sheet(isPresented: $viewModel.showingSheet) {
-            PredictionView(photo: viewModel.capturedImage, guideCrops: viewModel.capturedCrops)
+            if viewModel.capturedMode == .addon {
+                AddonScanView(crop: viewModel.capturedCrops.first)
+            } else {
+                PredictionView(photo: viewModel.capturedImage, guideCrops: viewModel.capturedCrops)
+            }
         }
     }
 }

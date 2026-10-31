@@ -22,6 +22,8 @@ enum CaptureMode: Hashable, CaseIterable, Identifiable {
     case single
     case diamond
     case row
+    /// One add-on tile, scanned with the add-on model.
+    case addon
 
     var id: Self { self }
 
@@ -31,6 +33,7 @@ enum CaptureMode: Hashable, CaseIterable, Identifiable {
         case .single: return PerkSlotLayout.single.title
         case .diamond: return PerkSlotLayout.diamond.title
         case .row: return PerkSlotLayout.row.title
+        case .addon: return PerkSlotLayout.addon.title
         }
     }
 
@@ -40,7 +43,13 @@ enum CaptureMode: Hashable, CaseIterable, Identifiable {
         case .single: return .single
         case .diamond: return .diamond
         case .row: return .row
+        case .addon: return .addon
         }
+    }
+
+    /// Modes the picker offers: Add-on only appears when the add-on model is part of the build.
+    static var selectable: [CaptureMode] {
+        allCases.filter { $0 != .addon || CoreMLAddonScorer.isModelBundled() }
     }
 }
 
@@ -53,6 +62,8 @@ class CaptureViewModel {
     /// One crop per perk slot of the current layout, in slot order.
     var capturedCrops: [UIImage] = []
     var mode: CaptureMode = .auto
+    /// The mode the shown photo was taken in; the result sheet depends on it, not on later picker changes.
+    private(set) var capturedMode: CaptureMode = .auto
     var previewSize: CGSize = .zero
     var showingSheet = false
     let simulatorImage = UIImage(named: "hex-no-one-escapes-death")
@@ -90,6 +101,7 @@ class CaptureViewModel {
     private func present(photo: UIImage, crops: [UIImage]) {
         capturedImage = photo
         capturedCrops = crops
+        capturedMode = mode
         showingSheet = true
     }
     

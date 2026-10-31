@@ -87,7 +87,9 @@ struct PerkCardView: View {
     @ViewBuilder
     private var icon: some View {
         Group {
-            if let perk {
+            if let perk, let bundled = PerkIconStore.image(forPerkID: perk.id) {
+                Image(uiImage: bundled).resizable().scaledToFit()
+            } else if let perk {
                 LazyImage(url: perk.iconUrl) { state in
                     if let image = state.image {
                         image.resizable().scaledToFit()

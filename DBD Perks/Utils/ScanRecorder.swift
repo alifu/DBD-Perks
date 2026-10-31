@@ -35,6 +35,7 @@ struct CorrectionRecord: Codable, Equatable {
 /// - `scans.jsonl`                              one `ScanRecord` per line
 /// - `crops/<scanID>_<slot>.jpg`                every crop the model scored
 /// - `corrections/<perkID>/<scanID>_<slot>.jpg` crops the user marked wrong, filed under the right perk
+///   (add-ons: `corrections/addons/<icon label>/...`)
 /// - `corrections/<perkID>/<scanID>_<slot>.json` the matching `CorrectionRecord`
 struct ScanRecorder {
     private static let jpegQuality: CGFloat = 0.9
@@ -67,11 +68,12 @@ struct ScanRecorder {
         }
     }
 
-    /// Files `crop` under the perk it really is. Returns false if it could not be written.
+    /// Files `crop` under the perk it really is (or, with `group` "addons", the add-on label). Returns false if it could not be written.
     @discardableResult
-    func saveCorrection(_ correction: CorrectionRecord, crop: UIImage) -> Bool {
-        let perkDirectory = directory.appendingPathComponent("corrections", isDirectory: true)
-            .appendingPathComponent(correction.correctPerkID, isDirectory: true)
+    func saveCorrection(_ correction: CorrectionRecord, crop: UIImage, group: String? = nil) -> Bool {
+        var corrections = directory.appendingPathComponent("corrections", isDirectory: true)
+        if let group { corrections.appendPathComponent(group, isDirectory: true) }
+        let perkDirectory = corrections.appendingPathComponent(correction.correctPerkID, isDirectory: true)
         do {
             try FileManager.default.createDirectory(at: perkDirectory, withIntermediateDirectories: true)
             try write(crop, to: perkDirectory.appendingPathComponent(Self.fileName(scanID: correction.scanID, slot: correction.slot, ext: "jpg")))

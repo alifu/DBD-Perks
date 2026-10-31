@@ -111,11 +111,17 @@ struct CorrectionPickerView: View {
             List(matches, id: \.id) { perk in
                 Button { onPick(perk) } label: {
                     HStack(spacing: 12) {
-                        LazyImage(url: perk.iconUrl) { state in
-                            if let image = state.image {
-                                image.resizable().scaledToFit()
+                        Group {
+                            if let bundled = PerkIconStore.image(forPerkID: perk.id) {
+                                Image(uiImage: bundled).resizable().scaledToFit()
                             } else {
-                                Color.gray.opacity(0.2)
+                                LazyImage(url: perk.iconUrl) { state in
+                                    if let image = state.image {
+                                        image.resizable().scaledToFit()
+                                    } else {
+                                        Color.gray.opacity(0.2)
+                                    }
+                                }
                             }
                         }
                         .frame(width: 44, height: 44)

@@ -53,7 +53,7 @@ struct PerkSlotOverlay: View {
                     Rectangle()
                         .overlay {
                             ForEach(slots.indices, id: \.self) { index in
-                                DiamondShape()
+                                slotShape(slots[index])
                                     .frame(width: slots[index].diagonal, height: slots[index].diagonal)
                                     .position(slots[index].center)
                                     .blendMode(.destinationOut)
@@ -63,7 +63,7 @@ struct PerkSlotOverlay: View {
                 }
             
             ForEach(slots.indices, id: \.self) { index in
-                DiamondShape()
+                slotShape(slots[index])
                     .stroke(Color.yellow, lineWidth: 2)
                     .frame(width: slots[index].diagonal, height: slots[index].diagonal)
                     .position(slots[index].center)
@@ -77,6 +77,12 @@ struct PerkSlotOverlay: View {
                     }
             }
         }
+    }
+}
+
+extension PerkSlotOverlay {
+    private func slotShape(_ slot: PerkSlot) -> AnyShape {
+        slot.shape == .square ? AnyShape(RoundedRectangle(cornerRadius: 8)) : AnyShape(DiamondShape())
     }
 }
 

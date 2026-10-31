@@ -8,19 +8,30 @@ import CoreGraphics
 /// One perk position on screen. The in-game icon sits inside a diamond (a square rotated 45°),
 /// so we crop the largest upright square that fits inside that diamond.
 struct PerkSlot: Equatable {
+    enum Shape: Equatable {
+        case diamond
+        case square
+    }
+
+    /// Add-on tiles are upright squares; the crop is a little larger than the tile, like the training crops.
+    static let squareCropFactor: CGFloat = 1.15
+
     /// Side of the largest upright square that fits inside a diamond: half of its diagonal.
     static let cropFractionOfDiagonal: CGFloat = 0.5
 
     let center: CGPoint
     /// Corner-to-corner size of the diamond frame.
     let diagonal: CGFloat
+    var shape: Shape = .diamond
 
-    /// The square that fits inside the diamond: what the guide shows as "inside".
-    var cropRect: CGRect { squareRect(fractionOfDiagonal: Self.cropFractionOfDiagonal) }
+    /// The square that fits inside the diamond (or the tile itself): what the guide shows as "inside".
+    var cropRect: CGRect { squareRect(fractionOfDiagonal: shape == .square ? 1 : Self.cropFractionOfDiagonal) }
 
     /// The square handed to the classifier. Wider than `cropRect` because the model was trained on crops
     /// that include a little of the diamond's surroundings (same fraction `PerkLocator` verifies with).
-    var classifierCropRect: CGRect { squareRect(fractionOfDiagonal: PerkLocator.cropFractions[0]) }
+    var classifierCropRect: CGRect {
+        squareRect(fractionOfDiagonal: shape == .square ? Self.squareCropFactor : PerkLocator.cropFractions[0])
+    }
 
     private func squareRect(fractionOfDiagonal: CGFloat) -> CGRect {
         let side = diagonal * fractionOfDiagonal
@@ -35,6 +46,8 @@ enum PerkSlotLayout: String, CaseIterable, Identifiable {
     case single
     case diamond
     case row
+    /// One upright square tile: an add-on.
+    case addon
 
     var id: String { rawValue }
 
@@ -43,12 +56,14 @@ enum PerkSlotLayout: String, CaseIterable, Identifiable {
         case .single: return "Single"
         case .diamond: return "Diamond"
         case .row: return "Row"
+        case .addon: return "Add-on"
         }
     }
 
     private static let diamondWidthFraction: CGFloat = 0.3
     private static let singleWidthFraction: CGFloat = 0.5
     private static let rowWidthFraction: CGFloat = 0.22
+    private static let addonWidthFraction: CGFloat = 0.4
     private static let spacingFactor: CGFloat = 1.05
 
     func slots(in size: CGSize) -> [PerkSlot] {
@@ -56,6 +71,8 @@ enum PerkSlotLayout: String, CaseIterable, Identifiable {
         switch self {
         case .single:
             return [PerkSlot(center: center, diagonal: size.width * Self.singleWidthFraction)]
+        case .addon:
+            return [PerkSlot(center: center, diagonal: size.width * Self.addonWidthFraction, shape: .square)]
         case .diamond:
             let diagonal = size.width * Self.diamondWidthFraction
             let offset = diagonal / 2 * Self.spacingFactor

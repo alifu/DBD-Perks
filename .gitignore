@@ -86,3 +86,8 @@ CLAUDE.md
 .claude/
 .claudeignore
 graphify-out/
+
+# Game icons are Behaviour Interactive assets: bundled locally, never committed
+DBD Perks/Resources/AddonIcons/
+DBD Perks/DBDAddonClassifierV1.mlpackage/
+DBD Perks/Resources/PerkIcons/
