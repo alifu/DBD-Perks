@@ -20,7 +20,7 @@ struct CaptureView: View {
             if viewModel.currentFrame != nil {
                 VStack {
                     Picker("Mode", selection: $viewModel.mode) {
-                        ForEach(CaptureMode.selectable) { mode in
+                        ForEach(viewModel.headerTabOption) { mode in
                             Text(mode.title).tag(mode)
                         }
                     }
@@ -30,25 +30,60 @@ struct CaptureView: View {
                     
                     Spacer()
                     
-                    Button(action: {
-                        viewModel.didClickShutter()
-                    }) {
-                        ZStack {
-                            Color.white
-                            
-                            Image(systemName: "camera.fill")
-                                .resizable()
-                                .scaledToFit()
-                                .foregroundColor(.black)
-                                .padding(24)
+                    HStack(spacing: 24) {
+                        
+                        Button(action: {
+                            viewModel.didAddonLayoutSelected()
+                        }) {
+                            ZStack {
+                                Color.white
+                                    .opacity(0.5)
+                                
+                                Text("Addons")
+                                    .foregroundStyle(Color.black)
+                            }
                         }
+                        .frame(width: 100, height: 40)
+                        .cornerRadius(12)
+                        .padding(.vertical, 32)
+                        
+                        Button(action: {
+                            viewModel.didClickShutter()
+                        }) {
+                            ZStack {
+                                Color.white
+                                
+                                Image(systemName: "camera.fill")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .foregroundColor(.black)
+                                    .padding(24)
+                            }
+                        }
+                        .frame(width: 100, height: 100)
+                        .clipShape(Circle())
+                        .padding(.vertical, 32)
+                        
+                        Button(action: {
+                            viewModel.didSinglePerkLayoutSelected()
+                        }) {
+                            ZStack {
+                                Color.white
+                                    .opacity(0.5)
+                                
+                                Text("Perks")
+                                    .foregroundStyle(Color.black)
+                            }
+                        }
+                        .frame(width: 100, height: 40)
+                        .cornerRadius(12)
+                        .padding(.vertical, 32)
                     }
-                    .frame(width: 100, height: 100)
-                    .clipShape(Circle())
-                    .padding(.vertical, 32)
                 }
             }
         }
+        .onAppear { viewModel.startCamera() }
+        .onDisappear { viewModel.stopCamera() }
         .sheet(isPresented: $viewModel.showingSheet) {
             if viewModel.capturedMode == .addon {
                 AddonScanView(crop: viewModel.capturedCrops.first)

@@ -62,6 +62,7 @@ class CaptureViewModel {
     /// One crop per perk slot of the current layout, in slot order.
     var capturedCrops: [UIImage] = []
     var mode: CaptureMode = .auto
+    let headerTabOption: [CaptureMode] = [.auto, .diamond, .row]
     /// The mode the shown photo was taken in; the result sheet depends on it, not on later picker changes.
     private(set) var capturedMode: CaptureMode = .auto
     var previewSize: CGSize = .zero
@@ -77,6 +78,12 @@ class CaptureViewModel {
         }
 #endif
     }
+    
+    @MainActor
+    func startCamera() { cameraManager.start() }
+    
+    @MainActor
+    func stopCamera() { cameraManager.stop() }
     
     func handleCameraPreviews() async {
         for await image in cameraManager.previewStream {
@@ -98,6 +105,14 @@ class CaptureViewModel {
 #endif
     }
     
+    func didSinglePerkLayoutSelected() {
+        self.mode = .single
+    }
+    
+    func didAddonLayoutSelected() {
+        self.mode = .addon
+    }
+    
     private func present(photo: UIImage, crops: [UIImage]) {
         capturedImage = photo
         capturedCrops = crops
@@ -105,10 +120,11 @@ class CaptureViewModel {
         showingSheet = true
     }
     
-    /// Cuts the photo into the (at most four) perk slots that were visible in the guide, framed like the training crops.
+    /// Cuts the photo into the (at most four) perk slots that were visible in the guide. Perk slots are cut
+    /// a little wide so the prediction can re-centre on each icon; add-on tiles are framed like the training crops.
     func crops(from photo: UIImage, layout: PerkSlotLayout) -> [UIImage] {
         layout.slots(in: previewSize).compactMap {
-            photo.cropped(toViewRect: $0.classifierCropRect, viewSize: previewSize)
+            photo.cropped(toViewRect: $0.searchRect, viewSize: previewSize)
         }
     }
     

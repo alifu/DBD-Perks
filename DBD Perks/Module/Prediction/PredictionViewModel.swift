@@ -25,6 +25,8 @@ final class PredictionViewModel {
     @ObservationIgnored private let scorer: SlotScoring?
     /// Scores the few guide crops; averages several shifted views of each. The locator keeps the plain `scorer`.
     @ObservationIgnored private let guideScorer: SlotScoring?
+    /// Re-centres each guide window on its icon before scoring. nil scores the guide crops as they are.
+    @ObservationIgnored private let guideSearch: GuideSlotSearch?
     @ObservationIgnored private let repository: PerkRepository?
     @ObservationIgnored private let recorder: ScanRecorder?
     @ObservationIgnored private var lastScanID: String?
@@ -35,10 +37,12 @@ final class PredictionViewModel {
             let live = try Self.makeLiveDependencies()
             scorer = live.scorer
             guideScorer = TestTimeAugmentingScorer(base: live.scorer)
+            guideSearch = GuideSlotSearch(scorer: live.scorer)
             repository = live.repository
         } catch {
             scorer = nil
             guideScorer = nil
+            guideSearch = nil
             repository = nil
             errorMessage = error.localizedDescription
         }
@@ -50,12 +54,14 @@ final class PredictionViewModel {
     }
 
     private static func makeLiveDependencies() throws -> (scorer: SlotScoring, repository: PerkRepository) {
-        (try CoreMLPerkScorer(), try BundledPerkRepository())
+        (LevelAdaptiveScorer(base: try CoreMLPerkScorer()), try BundledPerkRepository())
     }
 
-    init(scorer: SlotScoring, repository: PerkRepository, guideScorer: SlotScoring? = nil, recorder: ScanRecorder? = nil) {
+    init(scorer: SlotScoring, repository: PerkRepository, guideScorer: SlotScoring? = nil,
+         guideSearch: GuideSlotSearch? = nil, recorder: ScanRecorder? = nil) {
         self.scorer = scorer
         self.guideScorer = guideScorer ?? scorer
+        self.guideSearch = guideSearch
         self.repository = repository
         self.recorder = recorder
     }
@@ -67,15 +73,24 @@ final class PredictionViewModel {
     /// Debug builds only: a log exists to collect wrong answers.
     var canReportWrongPerk: Bool { recorder != nil }
 
-    /// Guide mode: the user lined the perks up, so every crop is one slot.
-    func analyze(crops: [UIImage]) {
+    /// Guide mode: the user lined the perks up, so every crop is one slot. With a `guideSearch`, each crop is
+    /// a slightly wide window and the icon is re-centred inside it first (off the main thread).
+    func analyze(crops: [UIImage]) async {
         guard let guideScorer, let repository else { return }
+        isAnalyzing = true
         errorMessage = nil
         let resolver = LoadoutResolver(repository: repository)
-        let slotCrops = Array(crops.prefix(PerkSlotLayout.maxSlots))
+        let windows = Array(crops.prefix(PerkSlotLayout.maxSlots))
+        let search = guideSearch
         do {
-            let slotCandidates = try slotCrops.map { resolver.candidates(from: try guideScorer.labelScores(for: $0)) }
-            results = resolver.resolve(slotCandidates)
+            let scored = try await Task.detached(priority: .userInitiated) {
+                try windows.map { window in
+                    let crop = try search?.bestCrop(in: window) ?? window
+                    return (crop: crop, scores: try guideScorer.labelScores(for: crop))
+                }
+            }.value
+            let slotCrops = scored.map(\.crop)
+            results = resolver.resolve(scored.map { resolver.candidates(from: $0.scores) })
             slotImages = slotCrops
             regions = []
             lastScanID = recorder?.recordScan(source: "guide", crops: slotCrops, results: results)
@@ -83,6 +98,7 @@ final class PredictionViewModel {
             results = []
             errorMessage = error.localizedDescription
         }
+        isAnalyzing = false
         hasAnalyzed = true
     }
 

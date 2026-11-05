@@ -186,11 +186,11 @@ final class AccuracyTuningTests: XCTestCase {
         XCTAssertEqual(saved, correction)
     }
 
-    func testReportWrongRecordsPredictedAndCorrectPerk() throws {
+    func testReportWrongRecordsPredictedAndCorrectPerk() async throws {
         struct Fixed: SlotScoring { func labelScores(for crop: UIImage) throws -> [String: Double] { ["a": 0.6, "b": 0.4] } }
         let recorder = ScanRecorder(directory: try temporaryDirectory())
         let viewModel = PredictionViewModel(scorer: Fixed(), repository: repository(), recorder: recorder)
-        viewModel.analyze(crops: [solidImage()])
+        await viewModel.analyze(crops: [solidImage()])
 
         XCTAssertTrue(viewModel.canReportWrongPerk)
         XCTAssertTrue(viewModel.reportWrong(slot: 0, correctPerkID: "b"))
@@ -202,10 +202,10 @@ final class AccuracyTuningTests: XCTestCase {
         XCTAssertEqual(saved.correctPerkID, "b")
     }
 
-    func testReportWrongIsDisabledWithoutARecorder() {
+    func testReportWrongIsDisabledWithoutARecorder() async {
         struct Fixed: SlotScoring { func labelScores(for crop: UIImage) throws -> [String: Double] { ["a": 1] } }
         let viewModel = PredictionViewModel(scorer: Fixed(), repository: repository())
-        viewModel.analyze(crops: [solidImage()])
+        await viewModel.analyze(crops: [solidImage()])
 
         XCTAssertFalse(viewModel.canReportWrongPerk)
         XCTAssertFalse(viewModel.reportWrong(slot: 0, correctPerkID: "b"))

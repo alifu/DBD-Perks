@@ -28,12 +28,31 @@ final class CameraManager: NSObject {
         }
     }()
     
-    override init() {
-        super.init()
-        
+    /// Only touched on the main actor, so a stop that lands while a start is still awaiting permission wins.
+    private var wantsRunning = false
+    private var configureTask: Task<Void, Never>?
+    
+    /// Starts the live feed. Safe to call repeatedly.
+    @MainActor
+    func start() {
+        wantsRunning = true
         Task {
-            await configureSession()
-            await startSession()
+            let configure = configureTask ?? Task { await configureSession() }
+            configureTask = configure
+            await configure.value
+            guard wantsRunning, await isAuthorized else { return }
+            sessionQueue.async { [captureSession] in
+                if !captureSession.isRunning { captureSession.startRunning() }
+            }
+        }
+    }
+    
+    /// Stops the live feed so the camera is released (e.g. while another tab is showing).
+    @MainActor
+    func stop() {
+        wantsRunning = false
+        sessionQueue.async { [captureSession] in
+            if captureSession.isRunning { captureSession.stopRunning() }
         }
     }
     
@@ -81,13 +100,6 @@ final class CameraManager: NSObject {
                 connection.videoOrientation = .portrait
             }
         }
-    }
-    
-    private func startSession() async {
-        /// Checking authorization
-        guard await isAuthorized else { return }
-        /// Start the capture session flow of data
-        captureSession.startRunning()
     }
     
     private var isAuthorized: Bool {

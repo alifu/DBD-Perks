@@ -33,6 +33,12 @@ struct PerkSlot: Equatable {
         squareRect(fractionOfDiagonal: shape == .square ? Self.squareCropFactor : PerkLocator.cropFractions[0])
     }
 
+    /// What is cut from the photo for a perk slot: wider than `classifierCropRect` so `GuideSlotSearch` can
+    /// re-centre on the icon when the guide does not sit exactly on it. Add-on tiles keep their fixed crop.
+    var searchRect: CGRect {
+        shape == .square ? classifierCropRect : squareRect(fractionOfDiagonal: GuideSlotSearch.windowFraction)
+    }
+
     private func squareRect(fractionOfDiagonal: CGFloat) -> CGRect {
         let side = diagonal * fractionOfDiagonal
         return CGRect(x: center.x - side / 2, y: center.y - side / 2, width: side, height: side)
@@ -64,7 +70,10 @@ enum PerkSlotLayout: String, CaseIterable, Identifiable {
     private static let singleWidthFraction: CGFloat = 0.5
     private static let rowWidthFraction: CGFloat = 0.22
     private static let addonWidthFraction: CGFloat = 0.4
-    private static let spacingFactor: CGFloat = 1.05
+    /// Centre-to-centre distance of neighbouring perks, per diamond diagonal. Measured on real screens:
+    /// lobby diamond ≈ 1.08, after-match row ≈ 1.14, in-game diamond ≈ 1.20. The middle value keeps every
+    /// screen within `GuideSlotSearch.maxShift` of the guide.
+    private static let spacingFactor: CGFloat = 1.14
 
     func slots(in size: CGSize) -> [PerkSlot] {
         let center = CGPoint(x: size.width / 2, y: size.height / 2)

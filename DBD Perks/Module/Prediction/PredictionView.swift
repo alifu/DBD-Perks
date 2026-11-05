@@ -85,7 +85,7 @@ struct PredictionView: View {
 
     private func analyze() async {
         if !guideCrops.isEmpty {
-            viewModel.analyze(crops: guideCrops)
+            await viewModel.analyze(crops: guideCrops)
         } else if let photo {
             await viewModel.analyze(photo: photo)
         }

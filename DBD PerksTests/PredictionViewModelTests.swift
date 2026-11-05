@@ -39,7 +39,7 @@ final class PredictionViewModelTests: XCTestCase {
 
     private let blank = UIImage()
 
-    func testAnalyzeReturnsOneResultPerCropWithDistinctPerks() {
+    func testAnalyzeReturnsOneResultPerCropWithDistinctPerks() async {
         let scorer = FakeScorer([
             ["a": 0.9, "b": 0.1],
             ["a": 0.55, "c": 0.4],
@@ -48,7 +48,7 @@ final class PredictionViewModelTests: XCTestCase {
         ])
         let viewModel = PredictionViewModel(scorer: scorer, repository: repository())
 
-        viewModel.analyze(crops: Array(repeating: blank, count: 4))
+        await viewModel.analyze(crops: Array(repeating: blank, count: 4))
 
         XCTAssertEqual(viewModel.results.count, 4)
         let ids = viewModel.results.compactMap { $0.chosen?.perkID }
@@ -57,29 +57,29 @@ final class PredictionViewModelTests: XCTestCase {
         XCTAssertNil(viewModel.errorMessage)
     }
 
-    func testAnalyzeIgnoresCropsBeyondFourSlots() {
+    func testAnalyzeIgnoresCropsBeyondFourSlots() async {
         let scores = ["a": 0.9]
         let viewModel = PredictionViewModel(scorer: FakeScorer(Array(repeating: scores, count: 6)), repository: repository())
 
-        viewModel.analyze(crops: Array(repeating: blank, count: 6))
+        await viewModel.analyze(crops: Array(repeating: blank, count: 6))
 
         XCTAssertEqual(viewModel.results.count, PerkSlotLayout.maxSlots)
     }
 
-    func testAnalyzeReportsScorerFailure() {
+    func testAnalyzeReportsScorerFailure() async {
         struct Boom: LocalizedError { var errorDescription: String? { "boom" } }
         let viewModel = PredictionViewModel(scorer: FakeScorer([], failure: Boom()), repository: repository())
 
-        viewModel.analyze(crops: [blank])
+        await viewModel.analyze(crops: [blank])
 
         XCTAssertTrue(viewModel.results.isEmpty)
         XCTAssertEqual(viewModel.errorMessage, "boom")
     }
 
-    func testSelectSwitchesChosenCandidateAndClearsLowConfidence() throws {
+    func testSelectSwitchesChosenCandidateAndClearsLowConfidence() async throws {
         let scorer = FakeScorer([["a": 0.4, "b": 0.35]])
         let viewModel = PredictionViewModel(scorer: scorer, repository: repository())
-        viewModel.analyze(crops: [blank])
+        await viewModel.analyze(crops: [blank])
         let alternative = try XCTUnwrap(viewModel.results.first?.alternatives.first)
 
         viewModel.select(alternative, inSlot: 0)
@@ -89,10 +89,10 @@ final class PredictionViewModelTests: XCTestCase {
         XCTAssertEqual(viewModel.perk(id: alternative.perkID)?.name, "B")
     }
 
-    func testSelectIgnoresCandidateFromAnotherSlot() {
+    func testSelectIgnoresCandidateFromAnotherSlot() async {
         let scorer = FakeScorer([["a": 0.9], ["b": 0.9]])
         let viewModel = PredictionViewModel(scorer: scorer, repository: repository())
-        viewModel.analyze(crops: [blank, blank])
+        await viewModel.analyze(crops: [blank, blank])
         let before = viewModel.results
 
         viewModel.select(PerkCandidate(perkID: "b", probability: 0.9), inSlot: 0)
