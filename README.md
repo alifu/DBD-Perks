@@ -30,6 +30,7 @@ The following diagram describes the data and process flow inside the app:
 - 🔮 **Prediction** — Uses Core ML to predict top 10 possible perks.
 - 🖼️ **Results Display** — Shows the perk image, name, and description.
 - 💾 **Offline-first** — All predictions run locally using `.mlpackage`.
+- 💡 **Suggest** — A third tab suggests perks and add-ons that support each other, using a small on-device model. See the [diagrams](./doc/suggest-tab.md).
 
 ---
 

@@ -16,6 +16,8 @@ struct DBD_PerksApp: App {
                     .tabItem { Label("Scan", systemImage: "camera") }
                 CatalogView()
                     .tabItem { Label("Catalog", systemImage: "books.vertical") }
+                SuggestView()
+                    .tabItem { Label("Suggest", systemImage: "sparkles") }
             }
         }
     }
